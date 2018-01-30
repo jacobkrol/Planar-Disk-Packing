@@ -4,7 +4,7 @@ MCL Project : Spring 2018
 University of Illinois at Chicago
 
 Contributors:
-  Robit Banerjee
+  Rohit Banerjee
   Ivan Cruz
   Jacob Krol
   
