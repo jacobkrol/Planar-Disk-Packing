@@ -1,0 +1,22 @@
+Week 1 : 1/31/18
+
+First goal: Design your "palette" and a method for generating a packing, and compute the density
+
+-Use any language
+-Start with a single radius
+-Graph on a density vs. iterations plot
+-The canvas size should be large enough to nearly simulate an infinite boundary
+
+-This can be compared to the ethanol-alcohol mixture.
+	—-If only using radius 1, the limit is pi/rt(12)
+	—-If only using radius 1/2, the limit is pi/rt(12)
+	—-If using both, there must be a bowl-like shape on a volume vs. ratio graph
+
+For Friday:
+How to generate a palette (which size)
+How to fill the space
+How to calculate density
+
+Challenge:
+Prove the pi/rt(12) limit
+Find the theoretical limit to a packing with 2 radii
