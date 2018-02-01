@@ -12,6 +12,13 @@ window.onload=function() {
 
 var circles;
 var density;
+var text;
+
+try {
+    circles.length;
+} catch(err) {
+    circles = [];
+}
 
 var palatte = new function() {
     this.width = 775;
@@ -43,7 +50,8 @@ function main() {
     ctx.font = "22pt Helvetica";
     density = calcDensity();
     ctx.fillText("Number of Circles: "+String(circles.length),palatte.width+20,40);
-    ctx.fillText("Density: "+String(density),palatte.width+20,80);
+    ctx.fillText("Density: "+String(Math.round(density*10**4)/10**4),palatte.width+20,80);
+    
     
     for(var i=0; i<circles.length; i++) {
         ctx.beginPath();
@@ -54,9 +62,50 @@ function main() {
     
 }
 
-//Must be in [ [x,y,r], [x,y,r], ... , [x,y,r] ] shape
+// Save a .csv file, import on the page when running the script in a browser. It will do the rest.
+// Tip: A good starting point may be a radius around 0.03 to fit plenty onto the palatte
 
-circles = []; //Copy and paste the circles array here
+function saveCircles() {
+    text = text.replace(/\n/g,",");
+    text = text.split(",");
+    var x,y,r;
+    for(var i=0; i<text.length-2; i=i+3) {
+        for(var prop=0; prop<3; prop++) {
+            switch(prop) {
+                case 0:
+                    x = Number(text[i+prop]);
+                    break;
+                case 1:
+                    y = Number(text[i+prop]);
+                    break;
+                case 2:
+                    r = Number(text[i+prop]);
+                    break;
+            }
+        }
+        circles.push([x*20,y*20,r*20]);
+    }
+    
+}
+
+
+var openFile = function(event) {
+    var input = event.target;
+    var reader = new FileReader();
+    reader.onload = function() {
+        text = reader.result;
+        saveCircles();
+    }
+    reader.readAsText(input.files[0]);
+}
+
 
 </script>
+
+<body>
+    <input type='file' accept='text/plain' onchange='openFile(event)'><br>
+        <div id='output'>
+        </div>
+</body>
+
 </html>
