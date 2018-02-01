@@ -24,7 +24,6 @@ function calcDensity() {
     for(var i=0; i<circles.length; i++) {
         circleArea += Math.PI * circles[i][2]**2;
     }
-    console.log("Circle Area: ",circleArea,", and Palatte Area: ",palatte.area);
     return circleArea / palatte.area;
 }
 
@@ -44,7 +43,7 @@ function main() {
     ctx.font = "22pt Helvetica";
     density = calcDensity();
     ctx.fillText("Number of Circles: "+String(circles.length),palatte.width+20,40);
-    ctx.fillText("Density: "+String(roughDensity),palatte.width+20,80);
+    ctx.fillText("Density: "+String(density),palatte.width+20,80);
     
     for(var i=0; i<circles.length; i++) {
         ctx.beginPath();
@@ -53,14 +52,11 @@ function main() {
         ctx.stroke();
     }
     
-    radius = slider.pos;
-    
 }
 
-//Must be in [ [x,y,r], [x,y,r], ..., [x,y,r] ] shape
+//Must be in [ [x,y,r], [x,y,r], ... , [x,y,r] ] shape
 
 circles = []; //Copy and paste the circles array here
 
 </script>
 </html>
-
