@@ -1,0 +1,63 @@
+<html>
+
+<canvas id="gc" width="1400" height="775"></canvas>
+
+<script>
+window.onload=function() {
+	canv=document.getElementById("gc");
+	ctx=canv.getContext("2d");
+    var fps = 25;
+    setInterval(main,1000/fps);
+}
+
+var circles;
+var density;
+
+var palatte = new function() {
+    this.width = 775;
+    this.height = 775;
+    this.area = this.width * this.height;
+}
+
+function calcDensity() {
+    var circleArea=0; //circles.length * 2 * Math.PI * radius ** 2;
+    for(var i=0; i<circles.length; i++) {
+        circleArea += Math.PI * circles[i][2]**2;
+    }
+    console.log("Circle Area: ",circleArea,", and Palatte Area: ",palatte.area);
+    return circleArea / palatte.area;
+}
+
+function main() {
+    
+    //Print Background
+    ctx.fillStyle = "lightblue";
+    ctx.fillRect(0,0,canv.width, canv.height);
+    
+    ctx.beginPath();
+    ctx.strokeStyle = "black";
+    ctx.rect(1,1,palatte.width-2,palatte.height-2);
+    ctx.stroke();
+    
+    //Print Text
+    ctx.fillStyle="black";
+    ctx.font = "22pt Helvetica";
+    density = calcDensity();
+    ctx.fillText("Number of Circles: "+String(circles.length),palatte.width+20,40);
+    ctx.fillText("Density: "+String(roughDensity),palatte.width+20,80);
+    
+    for(var i=0; i<circles.length; i++) {
+        ctx.beginPath();
+        ctx.arc(circles[i][0],circles[i][1],circles[i][2],0,2*Math.PI);
+        ctx.strokeStyle = circles[i][3];
+        ctx.stroke();
+    }
+    
+    radius = slider.pos;
+    
+}
+
+circles = []; //Copy and paste the circles array here
+
+</script>
+</html>
