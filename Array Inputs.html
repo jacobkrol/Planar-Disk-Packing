@@ -49,7 +49,7 @@ function main() {
     for(var i=0; i<circles.length; i++) {
         ctx.beginPath();
         ctx.arc(circles[i][0],circles[i][1],circles[i][2],0,2*Math.PI);
-        ctx.strokeStyle = circles[i][3];
+        ctx.strokeStyle = "red";
         ctx.stroke();
     }
     
@@ -57,7 +57,10 @@ function main() {
     
 }
 
+//Must be in [ [x,y,r], [x,y,r], ..., [x,y,r] ] shape
+
 circles = []; //Copy and paste the circles array here
 
 </script>
 </html>
+
