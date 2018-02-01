@@ -237,7 +237,6 @@ function makeSome(n) {
         if(circles.length==0){
             makeCircle(x, y, radius, "red");
             //points.push( Math.round(2*Math.PI*radius**2/palatte.area*10**4)/10**4 );
-            new Audio("/Users/jacobkrol/Desktop/Bell Sound Effect.wav").play();
         } else {
             var safe = true;
             for(var j=0; j<circles.length; j++) {
@@ -247,7 +246,6 @@ function makeSome(n) {
             }
             if(safe==true) {
                 makeCircle(x,y,radius,"red");
-                new Audio("/Users/jacobkrol/Desktop/Bell Sound Effect.wav").play();
                 //points.push( Math.round(circles.length*2*Math.PI*radius**2/palatte.area*10**4)/10**4 );
             } else {
                 //makeCircle(x,y,radius,"dodgerblue");
