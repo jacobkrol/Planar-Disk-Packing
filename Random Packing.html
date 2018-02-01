@@ -84,7 +84,7 @@ function makeSlider() {
 function inside(c1,x,y,r) {
     var within;
     var dist = Math.sqrt( (circles[c1][0] - x)**2 + (circles[c1][1] - y)**2 );
-    if(dist < circles[c1][2] + slider.pos) {
+    if(dist < circles[c1][2] + radius) {
         within = true;
     } else {
         within = false;
@@ -232,23 +232,19 @@ function printGraph(roughAttempts) {
 function makeSome(n) {
     for(var i=0; i<n; i++) {
         attempts++;
-        var x = Math.random()*(palatte.width-slider.pos*2)+slider.pos;
-        var y = Math.random()*(palatte.height-slider.pos*2)+slider.pos;
+        var x = Math.random()*(palatte.width-radius*2)+radius;
+        var y = Math.random()*(palatte.height-radius*2)+radius;
         if(circles.length==0){
             makeCircle(x, y, radius, "red");
-            //points.push( Math.round(2*Math.PI*radius**2/palatte.area*10**4)/10**4 );
         } else {
             var safe = true;
             for(var j=0; j<circles.length; j++) {
-                if(inside(j,x,y,slider.pos)) {
+                if(inside(j,x,y,radius)) {
                     safe = false;
                 }
             }
-            if(safe==true) {
+            if(safe) {
                 makeCircle(x,y,radius,"red");
-                //points.push( Math.round(circles.length*2*Math.PI*radius**2/palatte.area*10**4)/10**4 );
-            } else {
-                //makeCircle(x,y,radius,"dodgerblue");
             }
         }
         
