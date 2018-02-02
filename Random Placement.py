@@ -8,7 +8,7 @@ def makeCircle(r):
   y = 10 #random.random()*(38.75-2*r)+r
   print("checking... \nx: ",x,"\ny: ",y,"\nr: ",r)
   for each in circles:
-    #this is statement is never the case, even when inside() is hardcoded to return a true
+    #this is statement is never the case, even when inside() is hardcoded to return a False
     if not inside(each,x,y,r): #reason why there is no data to file
       return circles.append([x,y,r])
     
