@@ -35,13 +35,13 @@ def saveToFile():
             else:
                 data += ","
     print("Data:\n"+data)
-    with open("s.csv",'w') as doc:
+    with open("s.csv",'w') as doc: #change the filename path according to your file's folder
         doc.write(data)
 
 def main():
     for n in range(5):
         makeCircle(1)
-    circles.append([1,2,"ptasetse"])
+    circles.append([1,2,"ptasetse"]) #just to check that data was being written to file
     print(circles)
     saveToFile()
 main()
