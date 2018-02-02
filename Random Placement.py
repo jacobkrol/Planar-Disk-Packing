@@ -41,7 +41,7 @@ def saveToFile():
 def main():
     for n in range(5):
         makeCircle(1)
-    circles.append([1,2,"ptasetse"]) #just to check that data was being written to file
+    circles.append([1,2,"ptasetse"]) #just to check that data was being added to the list
     print(circles)
     saveToFile()
 main()
