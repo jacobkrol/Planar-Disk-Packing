@@ -23,7 +23,7 @@ def inside(c,x,y,r): #intersection fucntion
     dist = ( (circles[circles.index(c)][0] - x)**2 + (circles[circles.index(c)][1] - y)**2 )**0.5
     if dist < circles[circles.index(c)][2] + r:        
         intersect = True
-    return False
+    return False #hardcoded a False return to see how makeCircle() would react
     
 def saveToFile():
     data = ""
