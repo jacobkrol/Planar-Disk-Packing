@@ -9,7 +9,8 @@ def makeCircle(r):
   print("checking... \nx: ",x,"\ny: ",y,"\nr: ",r)
   for each in circles:
     #this is statement is never the case, even when inside() is hardcoded to return a False
-    if not inside(each,x,y,r): #reason why there is no data to file
+    if not inside(each,x,y,r): # inside function is not returning anything even after 
+                                #set to return false tomake this conditional true
       return circles.append([x,y,r])
     
   return circles.append([x,y,r]) ##Bypassing the condition outputs to file fine, the problem is in the inside fucntion
