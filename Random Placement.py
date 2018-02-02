@@ -7,13 +7,13 @@ def makeCircle(r):
   x = 5 #random.random()*(38.75-2*r)+r
   y = 10 #random.random()*(38.75-2*r)+r
   print("checking... \nx: ",x,"\ny: ",y,"\nr: ",r)
-  for each in circles:
+  for each in circles: #FINAL BUG: THERE ARE ZERO ELEMENTS IN circles TO BEGIN WITH SO THE FOR LOOP RUNS 0 TIMES
     #this is statement is never the case, even when inside() is hardcoded to return a False
     if not inside(each,x,y,r): # inside function is not returning anything even after 
-                                #set to return false tomake this conditional true
+                                #set inside() to return false to make this conditional true, still wouldn't run
       return circles.append([x,y,r])
     
-  return circles.append([x,y,r]) ##Bypassing the condition outputs to file fine, the problem is in the inside fucntion
+  return circles.append([x,y,r]) ##Bypassing the condition outputs to file fine, the problem is with verifying the conditional
 
      
 
