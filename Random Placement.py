@@ -19,7 +19,7 @@ def makeCircle(r):
 def inside(c,x,y,r): #intersection fucntion
     intersect = False
     #Bug: The'c' inside of the circles[c][0] is a list and not an integer, which caused the error
-    #Solution: put circles.index(c) instead of c to use and integer value
+    #Potential Solution: put circles.index(c) instead of c to use and integer value
     dist = ( (circles[circles.index(c)][0] - x)**2 + (circles[circles.index(c)][1] - y)**2 )**0.5
     if dist < circles[circles.index(c)][2] + r:        
         intersect = True
