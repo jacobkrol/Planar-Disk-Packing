@@ -1,0 +1,30 @@
+import csv
+from random import randint
+import math
+
+current = []
+
+xbound = int(input("upper x bound of frame: "))
+ybound = int(input("upper y bound of frame: "))
+radius = int(input("radius of disks: "))
+iterate = int(input("number of iterations: "))
+
+def create_disk(x,y,r):
+	temp = (randint(-x,x),randint(-y,y),r)
+	for i in current:
+		if math.sqrt(((temp[0]-i[0])**2)+((temp[1]-i[1])**2)) < 2*r:
+			create_disk(x,y,r)
+	return temp
+
+def create_list(x,y,r,it):
+	for i in range(it):
+		current.append(create_disk(x,y,r))
+	return(current)
+
+def csv_write(array_list):
+	with open("arrrays.csv","w",newline="") as f:
+		write = csv.writer(f)
+		for i in array_list:
+			write.writerow(i)
+
+csv_write(create_list(xbound,ybound,radius,iterate))
