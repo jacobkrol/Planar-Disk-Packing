@@ -11,6 +11,8 @@ radius_sec  = int(input("radius of seconday disks: "))
 iterate = int(input("number of iterations: "))
 
 def create_disk(x,y,r,r2):
+#basically the same as the one radius program except create_disk takes two radius arguments
+#if the 50/50 chance of randint(0,1) being 0 is true then r becomes the seconday radius but if not, then the program continues as it would've before and not even call on the secondary radius
         if randint(0,1) == 0:
                 r = r2
                 
