@@ -3,6 +3,11 @@
 <canvas id="gc" width="1400" height="775"></canvas>
 
 <script>
+	
+/*
+This freezes up recursively within the "for" loop around line 140-170.
+Somewhere within the calculation for the change in y values.
+*/
 window.onload=function() {
 	canv=document.getElementById("gc");
 	ctx=canv.getContext("2d");
