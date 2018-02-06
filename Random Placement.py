@@ -2,13 +2,27 @@ import random
 
 circles = []
 
-def makeCircle(r):
-    x = random.random()*(38.75-2*r)+r
-    y = random.random()*(38.75-2*r)+r
-    print("checking... \nx: ",x,"\ny: ",y,"\nr: ",r)
-    for each in circles:
-        if not inside(each,x,y,r):
+def makeCircle(r,threshold):
+    tries = 0
+    while tries < threshold:
+        safe = True
+        tries += 1
+        x = random.random()*(38.75-2*r)+r
+        y = random.random()*(38.75-2*r)+r
+        if len(circles)==0:
             circles.append([x,y,r])
+            print(circles[-1])
+            return True
+        else:
+            for each in circles:
+                if inside(circles.index(each),x,y,r):
+                    safe = False
+        if len(circles)>0 and safe:
+            circles.append([x,y,r])
+            print(circles[-1])
+            return True
+    print(tries)
+    return False
 
 def inside(c,x,y,r):
     intersect = False
@@ -24,15 +38,14 @@ def saveToFile():
             data += str(entry)
             if circle[-1] == entry and circles[-1] != circle:
                 data += "\n"
-            else:
+            elif not ( circles[-1] == circle and circle[-1] == entry ):
                 data += ","
-    print("Data:\n"+data)
     with open("/Users/jacobkrol/Desktop/My Circle Data.csv",'w') as doc:
         doc.write(data)
 
 def main():
-    for n in range(5):
-        makeCircle(1)
-    print(circles)
+    generating = True
+    while generating:
+        generating = makeCircle(1,100) # ( radius, threshold )
     saveToFile()
 main()
