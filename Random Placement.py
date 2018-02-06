@@ -2,21 +2,30 @@ import random
 
 circles = []
 
+
 def makeCircle(r):
-    x = random.random()*(38.75-2*r)+r
-    y = random.random()*(38.75-2*r)+r
-    print("checking... \nx: ",x,"\ny: ",y,"\nr: ",r)
-    for each in circles:
-        if not inside(each,x,y,r):
-            circles.append([x,y,r])
+  x = 5 #random.random()*(38.75-2*r)+r
+  y = 10 #random.random()*(38.75-2*r)+r
+  print("checking... \nx: ",x,"\ny: ",y,"\nr: ",r)
+  for each in circles: #FINAL BUG: THERE ARE ZERO ELEMENTS IN circles TO BEGIN WITH SO THE FOR LOOP RUNS 0 TIMES
+    #this is statement is never the case, even when inside() is hardcoded to return a False
+    if not inside(each,x,y,r): # inside function is not returning anything even after 
+                                #set inside() to return false to make this conditional true, still wouldn't run
+      return circles.append([x,y,r])
+    
+  return circles.append([x,y,r]) ##Bypassing the condition outputs to file fine, the problem is with verifying the conditional
 
-def inside(c,x,y,r):
+     
+
+def inside(c,x,y,r): #intersection fucntion
     intersect = False
-    dist = ( (circles[c][0] - x)**2 + (circles[c][1] - y)**2 )**0.5
-    if dist < circles[c][2] + r:
+    #Bug: The'c' inside of the circles[c][0] is a list and not an integer, which caused the error
+    #Potential Solution: put circles.index(c) instead of c to use and integer value
+    dist = ( (circles[circles.index(c)][0] - x)**2 + (circles[circles.index(c)][1] - y)**2 )**0.5
+    if dist < circles[circles.index(c)][2] + r:        
         intersect = True
-    return intersect
-
+    return False #hardcoded a False return to see how makeCircle() would react
+    
 def saveToFile():
     data = ""
     for circle in circles:
@@ -27,12 +36,13 @@ def saveToFile():
             else:
                 data += ","
     print("Data:\n"+data)
-    with open("/Users/jacobkrol/Desktop/My Circle Data.csv",'w') as doc:
+    with open("s.csv",'w') as doc: #change the filename path according to your file's folder
         doc.write(data)
 
 def main():
     for n in range(5):
         makeCircle(1)
+    circles.append([1,2,"ptasetse"]) #just to check that data was being added to the list
     print(circles)
     saveToFile()
 main()
