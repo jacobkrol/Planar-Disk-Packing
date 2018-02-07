@@ -1,35 +1,49 @@
 <html>
-
+    
 <canvas id="gc" width="1400" height="775"></canvas>
 
 <script>
-	
-/*
-This freezes up recursively within the "for" loop around line 140-170.
-Somewhere within the calculation for the change in y values.
-*/
+    
+    /*
+     This freezes up recursively within the "for" loop around line 140-170.
+     Somewhere within the calculation for the change in y values.
+     */
 window.onload=function() {
-	canv=document.getElementById("gc");
-	ctx=canv.getContext("2d");
+    canv=document.getElementById("gc");
+    ctx=canv.getContext("2d");
     slider = new makeSlider();
+    t0 = performance.now();
+    ticks = timerUpdate;
     document.addEventListener("keydown",keyPush);
     document.addEventListener("mousedown",handleMouseDown);
     document.addEventListener("mousemove",handleMouseMove);
     document.addEventListener("mouseup",handleMouseUp);
-    var fps = 25;
+    var fps = 1000;
     setInterval(main,1000/fps);
 }
 var circles = [];
+var points = [];
 var density;
 var slider;
 var generating = false;
 var radius;
-var gravity = 2;
 var palatte = new function() {
     this.width = 775;
     this.height = 775;
     this.area = this.width * this.height;
 }
+var t0, t1, time, sum;
+var timerUpdate = 100;
+var ticks;
+var timeEstimate;
+
+var scale = new function() {
+    this.up = 0.01;
+    this.grav = 0.5;
+    this.horiz = 0.2;
+    this.down = 0.5;
+}
+
 function makeSlider() {
     this.left = palatte.width+40;
     this.width = 500;
@@ -79,10 +93,10 @@ function makeSlider() {
         
     }
 }
-function inside(c1,x,y,r) {
+function inside(c1,c2) {
     var within;
-    var dist = Math.sqrt( (circles[c1][0] - x)**2 + (circles[c1][1] - y)**2 );
-    if(dist < circles[c1][2] + slider.pos) {
+    var dist = Math.sqrt( (circles[c1][0] - circles[c2][0])**2 + (circles[c1][1] - circles[c2][1])**2 );
+    if(dist < circles[c1][2] + circles[c2][2]) {
         within = true;
     } else {
         within = false;
@@ -92,10 +106,86 @@ function inside(c1,x,y,r) {
 function calcDensity() {
     var circleArea=0; //circles.length * 2 * Math.PI * radius ** 2;
     for(var i=0; i<circles.length; i++) {
-        circleArea += Math.PI * circles[i][2]**2;
+        if(circles[i][1] > circles[i][2]) {
+            circleArea += Math.PI * circles[i][2]**2;
+        }
     }
     return circleArea / palatte.area;
 }
+
+function printGraph(roughAttempts) {
+    //draw the basics
+    ctx.beginPath();
+    ctx.moveTo(palatte.width+50,650);
+    ctx.lineTo(palatte.width+550,650);
+    ctx.strokeStyle="black";
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(palatte.width+50,300);
+    ctx.lineTo(palatte.width+50,650);
+    ctx.stroke();
+    
+    ctx.fillStyle = "aliceblue";
+    ctx.fillRect(palatte.width+51,301,498,348);
+    
+    //Dotted Line for Density 1
+    var sideways = 55;
+    var dashLength = 10;
+    while(sideways+dashLength<550) {
+        ctx.beginPath();
+        ctx.moveTo(palatte.width+sideways,320);
+        ctx.lineTo(palatte.width+sideways+dashLength,320);
+        ctx.stroke();
+        sideways += dashLength + 5;
+    }
+    
+    //Print Axes Labels
+    ctx.fillStyle="black";
+    ctx.font = "14pt Helvetica";
+    var tempMax = 0;
+    var max = points.slice(1).reduce((tempMax, p) => p > tempMax ? p : tempMax, points[1]);
+    var rounded = Math.round( max * 10**3 ) / 10**3;
+    ctx.fillText(String(rounded),palatte.width+30,295);
+    ctx.fillText("0",palatte.width+30,655);
+    
+    ctx.fillText(String(circles.length),palatte.width+510,680);
+    
+    //X-Axis Dash
+    ctx.beginPath();
+    ctx.moveTo(palatte.width+520,645);
+    ctx.lineTo(palatte.width+520,655);
+    ctx.stroke();
+    
+    ctx.fillStyle = "black";
+    ctx.font = "18pt Helvetica";
+    ctx.fillText("Performance vs. Circles",palatte.width+160,280);
+    
+    //Plot Points
+    // 470 horizontal
+    // 330 vertical
+    var horizSpace = 470 / (points.length - 1);
+    var vertSpace = 330;
+    for(var i=0; i<points.length; i++) {
+        /*
+        //Plot point
+        ctx.beginPath();
+        ctx.strokeStyle="blue";
+        ctx.arc(palatte.width+50+i*horizSpace,650-points[i]/rounded*vertSpace,3,0,2*Math.PI);
+        ctx.stroke();
+         */
+        //Plot line
+        if(i>0){
+            ctx.beginPath();
+            ctx.strokeStyle="blue";
+            ctx.moveTo(palatte.width+50+(i-1)*horizSpace,650-points[i-1]/rounded*vertSpace);
+            ctx.lineTo(palatte.width+50+i*horizSpace,650-points[i]/rounded*vertSpace);
+            ctx.stroke();
+        }
+        
+    }
+}
+
+
 function main() {
     
     //Print Background
@@ -116,69 +206,76 @@ function main() {
     
     ctx.fillStyle="gray";
     ctx.font = "italic 18pt Helvetica";
-    ctx.fillText("Press enter to generate a circle",palatte.width+20,palatte.height-40);
+    ctx.fillText("Press enter to generate a circle",palatte.width+20,palatte.height-30);
     
     //Update circles
     for(var i=0; i<circles.length; i++) {   // x , y , r , dx , dy, color
         
         //Fall due to gravity
-        circles[i][4] += gravity;
+        circles[i][4] += scale.grav;
         circles[i][1] += circles[i][4];
         
         //Don't go through the floor
         if(circles[i][1]>palatte.height - circles[i][2]) {
             circles[i][1] = palatte.height - circles[i][2];
-	    //circles[i][4] = 0;
         }
-
-	//Don't go through the sides
-	if(circles[i][0]>palatte.width - circles[i][2]) {
-	    circles[i][0] = palatte.width - circles[i][2];
-	}
-	if(circles[i][0]< circles[i][2]) {
-	    circles[i][0] = circles[i][2];
-	}
         
-	
-
+        //Don't go through the ceiling either
+        if(circles[i][1]<circles[i][2]) {
+            circles[i][1] += scale.down;
+        }
+        
+        //Don't go through the sides
+        if(circles[i][0]>palatte.width - circles[i][2]) {
+            circles[i][0] = palatte.width - circles[i][2];
+        }
+        if(circles[i][0]< circles[i][2]) {
+            circles[i][0] = circles[i][2];
+        }
+        
         
         //Move if you hit another circle
         for(var j=0; j<circles.length; j++) {
             if(j==i) { continue; }
-	    
-            if (inside(j,circles[i][0],circles[i][1],circles[i][2])) {
-                circles[i][0] += -(circles[i][0]<circles[j][0]) + (circles[i][0]>=circles[j][0]);
-		circles[j][0] += -(circles[i][0]>circles[j][0]) + (circles[i][0]<=circles[j][0]);
-		
-		circles[i][4] = 0;
-		
-		/*
-		ctx.beginPath();
-                ctx.arc(circles[i][0],circles[i][1],circles[i][2],0,2*Math.PI);
-                ctx.strokeStyle = "red";
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.arc(circles[j][0],circles[j][1],circles[j][2],0,2*Math.PI);
-                ctx.strokeStyle = "red";
-                ctx.stroke();
-		*/
-		
-	    	while(inside(j,circles[i][0],circles[i][1],circles[i][2])) {
-		    safe = true;
-		    for(var k=0; k<circles.length; k++) {
-			if(k==j) { continue; }
-			if(inside(k,circles[j][0],circles[j][1]-0.01,circles[j][2])) {		    
-			    safe = false;
-			    break;			    
-			}
-		    }
-		    if(safe) { circles[j][1] += -0.01; }
-	    	}
-
+            
+            //if(Math.abs(circles[j][0] - circles[i][0]) > 120 || Math.abs(circles[j][1] - circles[i][1]) > 120) { continue; }
+            
+            if (inside(j,i)) {
+                circles[i][0] += scale.horiz*(-(circles[i][0]<circles[j][0]) + (circles[i][0]>=circles[j][0]));
+                circles[j][0] += scale.horiz*(-(circles[i][0]>=circles[j][0]) + (circles[i][0]<circles[j][0]));
+                
+                circles[i][4] = 0;
+                
+                /*
+                if(circles[i][1] < circles[j][1]) {
+                    var adj = Math.abs( circles[i][0] - circles[j][0] );
+                    var opp = Math.abs( circles[i][1] - circles[j][1] );
+                    var hyp = Math.abs( Math.sqrt( adj**2 + opp**2 ) );
+                    var angle = Math.acos( adj / hyp );
+                    var prop = Math.abs ( Math.cos( angle ) );
+                    //console.log(prop);
+                    circles[i][4] = -scale.grav * prop;
+                    //console.log(circles[i][4]);
+                } else {
+                    circles[i][4] = 0;
+                }
+                */
+                
+                
+                while(inside(j,i)) {
+    
+                    if(circles[i][1]<circles[j][1]) {
+                        circles[i][1] += -scale.up;
+                    } else {
+                        circles[j][1] += -scale.up;
+                    }
+                
+                }
+                
             }
-
+            
         }
- 
+        
     }
     
     //Print circles
@@ -187,51 +284,60 @@ function main() {
         ctx.arc(circles[i][0],circles[i][1],circles[i][2],0,2*Math.PI);
         ctx.strokeStyle = circles[i][5];
         ctx.stroke();
-	ctx.beginPath();
+        ctx.beginPath();
         ctx.arc(circles[i][0],circles[i][1],circles[i][2]-1,0,2*Math.PI);
         ctx.strokeStyle = circles[i][5];
         ctx.stroke();
     }
     
+    printGraph();
+    
     slider.show();
+    t1 = performance.now();
+    time = t1-t0;
+    t0 = performance.now();
+    
+    if(ticks < timerUpdate) {
+        sum += time;
+        ticks++;
+    } else {
+        timeEstimate = sum/timerUpdate;
+        ticks = 0;
+        sum = 0;
+    }
+    
+    ctx.fillStyle = "black";
+    ctx.font = "22pt Helvetica";
+    ctx.fillText("Time (ms) Per Run: "+String(Math.round(timeEstimate*10**3)/10**3),palatte.width+20, palatte.height-70);
+    
+    
     
 }
 
-function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
 
 function keyPush(evt) {
     if(evt.keyCode == 13) {
-	var hex = shuffle(['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']);
-	console.log(hex);
-	var color = "#";
-	for(var i=0; i<6; i++) {
-	    color += hex[i];
-	}
-	console.log(color);
-	//'#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) && (lor.length == 6) ?  lor : co(lor); })('');
-        circles.push( [palatte.width/2, slider.pos+10, slider.pos, 0, 0, color] ); //x, y, r, dx, dy, color
+        circles.push( [palatte.width/2, slider.pos+10, slider.pos, 0, 0, "red"] ); //x, y, r, dx, dy, color
+        points.push(timeEstimate);
     }
     if(evt.keyCode == 89) {
-	for(var i=0; i<circles.length; i++) {
-	    circles[i][4] = 0;
-	}
+        for(var i=0; i<circles.length; i++) {
+            circles[i][4] = 0;
+        }
+    }
+    if(evt.keyCode == 39) {
+        for(var i=0; i<circles.length; i++) {
+            var x = circles[i][0];
+            var y = circles[i][1];
+            circles[i][0] = palatte.height - y;
+            circles[i][1] = x;
+        }
+    }
+    if(evt.keyCode == 8) {
+        scale.grav = 0;
+        scale.down = 0;
+        scale.horiz = 0;
+        scale.up = 0;
     }
 }
 
@@ -244,9 +350,9 @@ function handleMouseDown(evt) {
     }
     var mouse = calculateMousePos(evt);
     for(var i=0; i<circles.length; i++) {
-	if(mouse.x < circles[i][0]+circles[i][2] && mouse.x > circles[i][0]-circles[i][2] && mouse.y < circles[i][1]+circles[i][2] && mouse.y > circles[i][1]-circles[i][2]) {
-	    console.log("Circle: ",i);
-	}
+        if(mouse.x < circles[i][0]+circles[i][2] && mouse.x > circles[i][0]-circles[i][2] && mouse.y < circles[i][1]+circles[i][2] && mouse.y > circles[i][1]-circles[i][2]) {
+            console.log("Circle: ",i);
+        }
     }
 }
 function handleMouseMove(evt) {
@@ -274,3 +380,4 @@ function calculateMousePos(evt) {
 </script>
 
 </html>
+
