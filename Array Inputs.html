@@ -69,8 +69,8 @@ function saveCircles() {
     text = text.replace(/\n/g,",");
     text = text.split(",");
     var x,y,r;
-    for(var i=0; i<text.length-2; i=i+3) {
-        for(var prop=0; prop<3; prop++) {
+    for(var i=0; i<text.length-2; i=i+5) {
+        for(var prop=0; prop<5; prop++) {
             switch(prop) {
                 case 0:
                     x = Number(text[i+prop]);
