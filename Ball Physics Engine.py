@@ -89,10 +89,7 @@ def update():
                 while inside(i,j):
                     if circles[i][1] < circles[j][1]:
                         circles[i][1] += -scale.up
-                        #while scale.up < 0.002:
-                          #scale.up = scale.up - .00000001
-                        '''if scale.up == 0:
-                          break'''
+                        
                         
                     else:
                         circles[j][1] += -scale.up
