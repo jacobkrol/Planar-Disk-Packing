@@ -21,7 +21,7 @@ class createPalatte(object):
 
 # DECLARE GLOBAL VARS
 circles = []
-scale = scaledVals(0.01, 0.5, 0.2, 0.5)  #up,grav,horiz,down
+scale = scaledVals(0.1, 0.5, 0.03, 0.5)  #up,grav,horiz,down #Ivan: Changed some of these variable around
 palatte = createPalatte(38.75,38.75)
 
 
@@ -59,6 +59,7 @@ def update():
         #Ceiling Boundary
         if circles[i][1] < circles[i][2]:
             circles[i][1] += scale.down
+            
 
         #Sides Boundary
         if circles[i][0] > palatte.width - circles[i][2]:
@@ -75,15 +76,24 @@ def update():
                 if circles[i][0] < circles[j][0]:
                     circles[i][0] += -scale.horiz
                     circles[j][0] += scale.horiz
+                    
+                      
+                    
                 else:
                     circles[i][0] += scale.horiz
                     circles[j][0] += -scale.horiz
+                    
                 
                 circles[i][4] = 0
 
                 while inside(i,j):
                     if circles[i][1] < circles[j][1]:
                         circles[i][1] += -scale.up
+                        #while scale.up < 0.002:
+                          #scale.up = scale.up - .00000001
+                        '''if scale.up == 0:
+                          break'''
+                        
                     else:
                         circles[j][1] += -scale.up
 
@@ -98,7 +108,7 @@ def saveToFile():
                 data += ","
             elif disk < len(circles)-1:
                 data += "\n"
-    with open("My Circle Data.csv",'w') as doc:
+    with open("se.txt",'w') as doc:
         doc.write(data)
 
 
@@ -106,8 +116,8 @@ def saveToFile():
 def main():
 
     circleTime = 50
-    settleTime = 500
-    numCircles = 20
+    settleTime = 1000 #changed settle time
+    numCircles = 100 #changed circles: algorithm is exponential/polynomial time, after 200 or so circles, it takes a long time to calculate
 
     for circleCount in range(numCircles):
         makeCircle()
