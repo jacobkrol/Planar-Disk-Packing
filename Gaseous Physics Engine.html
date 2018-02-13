@@ -18,6 +18,7 @@ window.onload=function() {
     document.addEventListener("mousedown",handleMouseDown);
     document.addEventListener("mousemove",handleMouseMove);
     document.addEventListener("mouseup",handleMouseUp);
+    document.addEventListener("click",handleClick);
     var fps = 5000;
     setInterval(main,1000/fps);
 }
@@ -228,10 +229,10 @@ function main() {
         
         //Don't go through the sides
         if(circles[i][0]>palette.width - circles[i][2]) {
-            circles[i][3] += -2*(circles[i][3]>0);
+            circles[i][3] += -2*(circles[i][3])*(circles[i][3]>0);
         }
         if(circles[i][0]< circles[i][2]) {
-            circles[i][3] += 2*(circles[i][3]<0);
+            circles[i][3] += 2*(circles[i][3])*(circles[i][3]<0);
         }
         
         
@@ -264,7 +265,6 @@ function main() {
                 
                 
                 if(inside(j,i)) {
-		    console.log("while");
     
                     if(circles[i][1]<circles[j][1]) {
                         circles[i][4] += -scale.up;
@@ -273,9 +273,9 @@ function main() {
 			circles[i][4] += scale.up;
                         circles[j][4] += -scale.up;
                     }
+
                 
                 }
-		console.log("out");
                 
             }
             
@@ -326,7 +326,9 @@ function main() {
 
 function keyPush(evt) {
     if(evt.keyCode == 13) {
-        circles.push( [palette.width/2, slider.pos+10, slider.pos, 0, 0, "red"] ); //x, y, r, dx, dy, color
+	var x = Math.random()*(palette.width-slider.pos*2)+slider.pos;
+	var y = Math.random()*(palette.height-slider.pos*2)+slider.pos;
+        circles.push( [x, y, slider.pos, 0, 0, "red"] ); //x, y, r, dx, dy, color
         points.push(timeEstimate);
     }
     if(evt.keyCode == 89) {
@@ -343,10 +345,11 @@ function keyPush(evt) {
         }
     }
     if(evt.keyCode == 8) {
-        scale.grav = 0;
-        scale.down = 0;
-        scale.horiz = 0;
-        scale.up = 0;
+        //scale.grav = 0;
+        //scale.down = 0;
+        //scale.horiz = 0;
+        //scale.up = 0;
+	circles.pop();
     }
 }
 
@@ -356,18 +359,6 @@ function handleMouseDown(evt) {
         if(mouse.x >= slider.left+slider.width*slider.pos/60-5 && mouse.x <= slider.left+slider.width*slider.pos/60+5 && mouse.y >= slider.top-15 && mouse.y <= slider.top+25) { //40 tall, 10 wide
             slider.drag = true;
         }
-    }
-    var mouse = calculateMousePos(evt);
-    for(var i=0; i<circles.length; i++) {
-	var onCircle = false;
-        if(mouse.x < circles[i][0]+circles[i][2] && mouse.x > circles[i][0]-circles[i][2] && mouse.y < circles[i][1]+circles[i][2] && mouse.y > circles[i][1]-circles[i][2]) {
-            console.log("Circle: ",i);
-	    onCircle = true;
-        }
-	if(!onCircle) {
-            circles.push( [mouse.x, mouse.y, slider.pos, 0, 0, "red"] );
-            points.push(timeEstimate);	
-	}
     }
 }
 function handleMouseMove(evt) {
@@ -392,8 +383,23 @@ function calculateMousePos(evt) {
         y:mouseY
     };
 }
+function handleClick(evt) {
+    var onCircle = false;
+    var mouse = calculateMousePos(evt);
+    for(var i=0; i<circles.length; i++) {
+        if(mouse.x < circles[i][0]+circles[i][2] && mouse.x > circles[i][0]-circles[i][2] && mouse.y < circles[i][1]+circles[i][2] && mouse.y > circles[i][1]-circles[i][2]) {
+            console.log("Circle: ",i);
+	    onCircle = true;
+        }
+	
+    }
+    if(!onCircle && mouse.x>slider.pos && mouse.x<palette.width-slider.pos && mouse.y>slider.pos && mouse.y<palette.height-slider.pos) {
+            circles.push( [mouse.x, mouse.y, slider.pos, 0, 0, "red"] );
+            points.push(timeEstimate);	
+    }
+
+}
 </script>
 
 </html>
-
 
