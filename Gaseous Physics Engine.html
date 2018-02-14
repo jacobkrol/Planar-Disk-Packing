@@ -34,7 +34,12 @@ var radius;
 var altRadius = 0;
 var overFix = false;
 var overSettle = false;
-var airSetting = "neither";
+var overNatural = false;
+var overFreeze = false;
+var overAll = false;
+var overIntersect = false;
+var airSetting = "natural";
+var updateSetting = "all";
 var palette = new function() {
     this.width = 775;
     this.height = 775;
@@ -114,70 +119,6 @@ function calcDensity() {
     return circleArea / palette.area;
 }
 
-function printGraph(roughAttempts) {
-    //draw the basics
-    ctx.beginPath();
-    ctx.moveTo(palette.width+50,650);
-    ctx.lineTo(palette.width+550,650);
-    ctx.strokeStyle="black";
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(palette.width+50,300);
-    ctx.lineTo(palette.width+50,650);
-    ctx.stroke();
-    
-    ctx.fillStyle = "aliceblue";
-    ctx.fillRect(palette.width+51,301,498,348);
-    
-    //Dotted Line for Density 1
-    var sideways = 55;
-    var dashLength = 10;
-    while(sideways+dashLength<550) {
-        ctx.beginPath();
-        ctx.moveTo(palette.width+sideways,320);
-        ctx.lineTo(palette.width+sideways+dashLength,320);
-        ctx.stroke();
-        sideways += dashLength + 5;
-    }
-    
-    //Print Axes Labels
-    ctx.fillStyle="black";
-    ctx.font = "14pt Helvetica";
-    var tempMax = 0;
-    var max = points.slice(1).reduce((tempMax, p) => p > tempMax ? p : tempMax, points[1]);
-    var rounded = Math.round( max * 10**3 ) / 10**3;
-    ctx.fillText(String(rounded),palette.width+30,295);
-    ctx.fillText("0",palette.width+30,655);
-    
-    ctx.fillText(String(circles.length),palette.width+510,680);
-    
-    //X-Axis Dash
-    ctx.beginPath();
-    ctx.moveTo(palette.width+520,645);
-    ctx.lineTo(palette.width+520,655);
-    ctx.stroke();
-    
-    ctx.fillStyle = "black";
-    ctx.font = "18pt Helvetica";
-    ctx.fillText("Performance vs. Circles",palette.width+160,280);
-    
-    //Plot Points
-    // 470 horizontal
-    // 330 vertical
-    var horizSpace = 470 / (points.length - 1);
-    var vertSpace = 330;
-    for(var i=0; i<points.length; i++) {
-        //Plot line
-        if(i>0){
-            ctx.beginPath();
-            ctx.strokeStyle="blue";
-            ctx.moveTo(palette.width+50+(i-1)*horizSpace,650-points[i-1]/rounded*vertSpace);
-            ctx.lineTo(palette.width+50+i*horizSpace,650-points[i]/rounded*vertSpace);
-            ctx.stroke();
-        }
-        
-    }
-}
 
 function selectRadius() {
     var r1 = slider1.pos;
@@ -218,6 +159,10 @@ function main() {
     ctx.fillText("Circles: "+String(circles.length),palette.width+20,40);
     ctx.fillText("Density: "+String(Math.round(density*10**4)/10**4),palette.width+300,40);
     
+    ctx.font = "bold 16pt Helvetica";
+    ctx.fillText("Dampening Factor:",palette.width+20,300);
+    ctx.fillText("Update Style:",palette.width+20,420)
+    
     ctx.fillStyle="gray";
     ctx.font = "italic 18pt Helvetica";
     ctx.fillText("Press enter to generate a circle",palette.width+20,palette.height-30);
@@ -228,101 +173,163 @@ function main() {
     } else {
         ctx.fillStyle = "cornflowerblue";
     }
-    ctx.fillRect(palette.width+400,palette.height-75,90,40);
+    ctx.fillRect(palette.width+40,320,110,40);
+    if(overNatural) {
+        ctx.fillStyle = "blue";
+    } else {
+        ctx.fillStyle = "cornflowerblue";
+    }
+    ctx.fillRect(palette.width+180,320,110,40);
     if(overSettle) {
         ctx.fillStyle = "blue";
     } else {
         ctx.fillStyle = "cornflowerblue";
     }
-    ctx.fillRect(palette.width+510,palette.height-75,90,40);
+    ctx.fillRect(palette.width+320,320,110,40);
+    if(overFreeze) {
+        ctx.fillStyle = "blue";
+    } else {
+        ctx.fillStyle = "cornflowerblue";
+    }
+    ctx.fillRect(palette.width+460,320,110,40);
+    if(overAll) {
+        ctx.fillStyle = "blue";
+    } else {
+        ctx.fillStyle = "cornflowerblue";
+    }
+    ctx.fillRect(palette.width+40,440,130,40);
+    if(overIntersect) {
+        ctx.fillStyle = "blue";
+    } else {
+        ctx.fillStyle = "cornflowerblue";
+    }
+    ctx.fillRect(palette.width+200,440,130,40);
     ctx.fillStyle = "black";
     ctx.font = "bold 18pt Helvetica";
-    ctx.fillText("Fix",palette.width+428,palette.height-47);
-    ctx.fillText("Settle",palette.width+522,palette.height-47);
+    ctx.fillText("Fix",palette.width+77,348);
+    ctx.fillText("Natural",palette.width+193,348);
+    ctx.fillText("Settle",palette.width+343,348);
+    ctx.fillText("Freeze",palette.width+478,348);
+    ctx.fillText("All",palette.width+89,468);
+    ctx.fillText("Intersect",palette.width+214,468);
     ctx.beginPath();
     ctx.strokeStyle = "black";
-    ctx.rect(palette.width+400,palette.height-75,90,40);
-    ctx.rect(palette.width+510,palette.height-75,90,40);
+    ctx.rect(palette.width+40,320,110,40);
+    ctx.rect(palette.width+180,320,110,40);
+    ctx.rect(palette.width+320,320,110,40);
+    ctx.rect(palette.width+460,320,110,40);
+    ctx.rect(palette.width+40,440,130,40);
+    ctx.rect(palette.width+200,440,130,40);
     ctx.stroke();
     ctx.beginPath();
     if(airSetting == "fix") {
         for(var thick=0; thick<3; thick++) {
-            ctx.rect(palette.width+400-thick,palette.height-75-thick,90+2*thick,40+2*thick);
+            ctx.rect(palette.width+40-thick,320-thick,110+2*thick,40+2*thick);
+            ctx.stroke();
+        }
+    } else if(airSetting == "natural"){
+        for(var thick=0; thick<3; thick++) {
+            ctx.rect(palette.width+180-thick,320-thick,110+2*thick,40+2*thick);
             ctx.stroke();
         }
     } else if(airSetting == "settle"){
         for(var thick=0; thick<3; thick++) {
-            ctx.rect(palette.width+510-thick,palette.height-75-thick,90+2*thick,40+2*thick);
+            ctx.rect(palette.width+320-thick,320-thick,110+2*thick,40+2*thick);
+            ctx.stroke();
+        }
+    } else if(airSetting == "freeze"){
+        for(var thick=0; thick<3; thick++) {
+            ctx.rect(palette.width+460-thick,320-thick,110+2*thick,40+2*thick);
+            ctx.stroke();
+        }
+    }
+    
+    if(updateSetting=="all") {
+        for(var thick=0; thick<3; thick++) {
+            ctx.rect(palette.width+40-thick,440-thick,130+2*thick,40+2*thick);
+            ctx.stroke();
+        }
+    } else if(updateSetting=="intersect") {
+        for(var thick=0; thick<3; thick++) {
+            ctx.rect(palette.width+200-thick,440-thick,130+2*thick,40+2*thick);
             ctx.stroke();
         }
     }
     
     
     //Update circles
-    for(var i=0; i<circles.length; i++) {   // x , y , r , dx , dy, color
-        
-        //Slow Down
-        circles[i][3] *= scale.air;
-        circles[i][4] *= scale.air;
-        
-        //Don't go through the floor
-        if(circles[i][1]>palette.height - circles[i][2]) {
-            circles[i][4] += -2*(circles[i][4])*(circles[i][4]>0);
-        }
-        
-        //Don't go through the ceiling either
-        if(circles[i][1]<circles[i][2]) {
-            circles[i][4] += -2*(circles[i][4])*(circles[i][4]<0);
-        }
-        
-        //Don't go through the sides
-        if(circles[i][0]>palette.width - circles[i][2]) {
-            circles[i][3] += -2*(circles[i][3])*(circles[i][3]>0);
-        }
-        if(circles[i][0] < circles[i][2]) {
-            circles[i][3] += -2*(circles[i][3])*(circles[i][3]<0);
-        }
-        
-        
-        //Move if you hit another circle
-        for(var j=0; j<circles.length; j++) {
-            if(j==i) { continue; }
+    if(airSetting!="freeze") {
+        for(var i=0; i<circles.length; i++) {   // x , y , r , dx , dy, color
             
-            if(Math.abs(circles[j][0] - circles[i][0]) > 60 || Math.abs(circles[j][1] - circles[i][1]) > 60) { continue; }
+            //Slow Down
+            circles[i][3] *= scale.air;
+            circles[i][4] *= scale.air;
             
-            if (inside(j,i)) {
-                circles[i][3] += scale.horiz*(-(circles[i][0]<circles[j][0]) + (circles[i][0]>=circles[j][0]));
-                circles[j][3] += scale.horiz*(-(circles[i][0]>=circles[j][0]) + (circles[i][0]<circles[j][0]));
+            //Don't go through the floor
+            if(circles[i][1]>palette.height - circles[i][2]) {
+                circles[i][4] += -2*(circles[i][4])*(circles[i][4]>0);
+            }
             
-                if(circles[i][1]<circles[j][1]) {
-                    circles[i][4] += -scale.up;
-                    circles[j][4] += scale.up;
-                } else {
-                    circles[i][4] += scale.up;
-                    circles[j][4] += -scale.up;
-                }
+            //Don't go through the ceiling either
+            if(circles[i][1]<circles[i][2]) {
+                circles[i][4] += -2*(circles[i][4])*(circles[i][4]<0);
+            }
+            
+            //Don't go through the sides
+            if(circles[i][0]>palette.width - circles[i][2]) {
+                circles[i][3] += -2*(circles[i][3])*(circles[i][3]>0);
+            }
+            if(circles[i][0] < circles[i][2]) {
+                circles[i][3] += -2*(circles[i][3])*(circles[i][3]<0);
+            }
+            
+            var isIntersecting = false;
+            
+            //Move if you hit another circle
+            for(var j=0; j<circles.length; j++) {
+                if(j==i) { continue; }
                 
-                if(circles[i][0]>=palette.width-circles[i][2]) {
-                    circles[i][0] = palette.width-circles[i][2];
-                }
-                if(circles[i][0]<=circles[i][2]) {
-                    circles[i][0] = circles[i][2];
-                }
-                if(circles[i][1]>=palette.height-circles[i][2]) {
-                    circles[i][1] = palette.height-circles[i][2];
-                }
-                if(circles[i][1]<=circles[i][2]) {
-                    circles[i][1] = circles[i][2];
+                if(Math.abs(circles[j][0] - circles[i][0]) > 60 || Math.abs(circles[j][1] - circles[i][1]) > 60) { continue; }
+                
+                if (inside(j,i)) {
+                    
+                    isIntersecting = true;
+                    
+                    circles[i][3] += scale.horiz*(-(circles[i][0]<circles[j][0]) + (circles[i][0]>=circles[j][0]));
+                    circles[j][3] += scale.horiz*(-(circles[i][0]>=circles[j][0]) + (circles[i][0]<circles[j][0]));
+                
+                    if(circles[i][1]<circles[j][1]) {
+                        circles[i][4] += -scale.up;
+                        circles[j][4] += scale.up;
+                    } else {
+                        circles[i][4] += scale.up;
+                        circles[j][4] += -scale.up;
+                    }
+                    
+                    if(circles[i][0]>=palette.width-circles[i][2]) {
+                        circles[i][0] = palette.width-circles[i][2];
+                    }
+                    if(circles[i][0]<=circles[i][2]) {
+                        circles[i][0] = circles[i][2];
+                    }
+                    if(circles[i][1]>=palette.height-circles[i][2]) {
+                        circles[i][1] = palette.height-circles[i][2];
+                    }
+                    if(circles[i][1]<=circles[i][2]) {
+                        circles[i][1] = circles[i][2];
+                    }
+                    
                 }
                 
             }
             
+            if(updateSetting=="all" || (updateSetting=="intersect" && isIntersecting)) {
+                //Update x,y based on dx, dy
+                circles[i][0] += circles[i][3];
+                circles[i][1] += circles[i][4];
+            }
+            
         }
-
-        //Update x,y based on dx, dy
-        circles[i][0] += circles[i][3];
-        circles[i][1] += circles[i][4];
-        
     }
     
     //Print circles
@@ -337,7 +344,7 @@ function main() {
         ctx.stroke();
     }
     
-    printGraph();
+    //printGraph();
     
     slider1.show();
     slider2.show();
@@ -415,15 +422,35 @@ function handleMouseMove(evt) {
     }
     //ctx.rect(palette.width+400,palette.height-75,90,40);
     var mouse = calculateMousePos(evt);
-    if( mouse.x <= palette.width+490 && mouse.x >= palette.width+400 && mouse.y >= palette.height-75 && mouse.y <= palette.height-35) {
+    if( mouse.x <= palette.width+150 && mouse.x >= palette.width+40 && mouse.y >= 320 && mouse.y <= 360) {
         overFix = true;
     } else {
         overFix = false;
     }
-    if( mouse.x <= palette.width+600 && mouse.x >= palette.width+510 && mouse.y >= palette.height-75 && mouse.y <= palette.height-35) {
+    if( mouse.x <= palette.width+290 && mouse.x >= palette.width+180 && mouse.y >= 320 && mouse.y <= 360) {
+        overNatural = true;
+    } else {
+        overNatural = false;
+    }
+    if( mouse.x <= palette.width+430 && mouse.x >= palette.width+320 && mouse.y >= 320 && mouse.y <= 360) {
         overSettle = true;
     } else {
         overSettle = false;
+    }
+    if( mouse.x <= palette.width+570 && mouse.x >= palette.width+460 && mouse.y >= 320 && mouse.y <= 360) {
+        overFreeze = true;
+    } else {
+        overFreeze = false;
+    }
+    if( mouse.x <= palette.width+40+130 && mouse.x >= palette.width+40 && mouse.y >= 440 && mouse.y <= 480) {
+        overAll = true;
+    } else {
+        overAll = false;
+    }
+    if( mouse.x <= palette.width+200+130 && mouse.x >= palette.width+200 && mouse.y >= 440 && mouse.y <= 480) {
+        overIntersect = true;
+    } else {
+        overIntersect = false;
     }
 }
 function handleMouseUp(evt) {
@@ -459,16 +486,29 @@ function handleClick(evt) {
             } else {
                 var color = "deeppink";
             }
-            circles.push( [mouse.x, mouse.y, selectRadius(), 0, 0, color] );
+            circles.push( [mouse.x, mouse.y, radius, 0, 0, color] );
             points.push(timeEstimate);	
     }
     if(overFix) {
         airSetting = "fix";
         scale.air = 0.99;
     }
+    if(overNatural) {
+        airSetting = "natural";
+        scale.air = 0.98;
+    }
     if(overSettle) {
         airSetting = "settle";
         scale.air = 0.94;
+    }
+    if(overFreeze) {
+        airSetting = "freeze";
+    }
+    if(overAll) {
+        updateSetting = "all";
+    }
+    if(overIntersect) {
+        updateSetting = "intersect";
     }
 
 }
