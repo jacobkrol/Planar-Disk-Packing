@@ -4,10 +4,6 @@
 
 <script>
     
-    /*
-     This freezes up recursively within the "for" loop around line 140-170.
-     Somewhere within the calculation for the change in y values.
-     */
 window.onload=function() {
     canv=document.getElementById("gc");
     ctx=canv.getContext("2d");
@@ -20,7 +16,7 @@ window.onload=function() {
     document.addEventListener("mousemove",handleMouseMove);
     document.addEventListener("mouseup",handleMouseUp);
     document.addEventListener("click",handleClick);
-    var fps = 5000;
+    var fps = 2000;
     setInterval(main,1000/fps);
 }
 var circles = [];
@@ -32,14 +28,14 @@ var slider1, slider2;
 var generating = false;
 var radius;
 var altRadius = 0;
-var overFix = false;
-var overSettle = false;
-var overNatural = false;
-var overFreeze = false;
-var overAll = false;
-var overIntersect = false;
+var showCircles = true;
+var overShow, clickingShow, overHide, clickingHide, overClear, clickingClear = false;
+var overFix, overSettle, overNatural, overFreeze, overAll, overIntersect = false;
+var overPendFreeze, overRelease, clickingRelease, pendFreeze = false;
 var airSetting = "natural";
 var updateSetting = "all";
+var numIntersections = 0;
+var apxNumIntersections = 0;
 var palette = new function() {
     this.width = 775;
     this.height = 775;
@@ -99,20 +95,22 @@ function makeSlider(id) {
         
     }
 }
+
 function inside(c1,c2) {
     var within;
     var dist = Math.sqrt( (circles[c1][0] - circles[c2][0])**2 + (circles[c1][1] - circles[c2][1])**2 );
-    if(dist < circles[c1][2] + circles[c2][2]) {
+    if(dist <= circles[c1][2] + circles[c2][2]) {
         within = true;
     } else {
         within = false;
     }
     return within;
 }
+
 function calcDensity() {
     var circleArea=0; //circles.length * 2 * Math.PI * radius ** 2;
     for(var i=0; i<circles.length; i++) {
-        if(circles[i][1] > circles[i][2] && circles[i][1] < palette.height-circles[i][2] && circles[i][0] > circles[i][2] && circles[i][0] < palette.width-circles[i][2]) {
+        if(circles[i][1] >= circles[i][2] && circles[i][1] <= palette.height-circles[i][2] && circles[i][0] >= circles[i][2] && circles[i][0] <= palette.width-circles[i][2]) {
             circleArea += Math.PI * circles[i][2]**2;
         }
     }
@@ -135,39 +133,7 @@ function selectRadius() {
     
 }
 
-
-function main() {
-    
-    //Print Background
-    ctx.fillStyle = "lightblue";
-    ctx.fillRect(0,0,canv.width, canv.height);
-    
-    ctx.beginPath();
-    ctx.strokeStyle = "black";
-    ctx.rect(1,1,palette.width-2,palette.height-2);
-    ctx.stroke();
-    
-    //Print Text
-    ctx.fillStyle="black";
-    ctx.font = "22pt Helvetica";
-    if(loops > densityWait) {
-        density = calcDensity();
-        loops=0;
-    } else {
-        loops++;
-    }
-    ctx.fillText("Circles: "+String(circles.length),palette.width+20,40);
-    ctx.fillText("Density: "+String(Math.round(density*10**4)/10**4),palette.width+300,40);
-    
-    ctx.font = "bold 16pt Helvetica";
-    ctx.fillText("Dampening Factor:",palette.width+20,300);
-    ctx.fillText("Update Style:",palette.width+20,420)
-    
-    ctx.fillStyle="gray";
-    ctx.font = "italic 18pt Helvetica";
-    ctx.fillText("Press enter to generate a circle",palette.width+20,palette.height-30);
-    
-    //Print Buttons
+function printButtons() {
     if(overFix) {
         ctx.fillStyle = "blue";
     } else {
@@ -204,6 +170,37 @@ function main() {
         ctx.fillStyle = "cornflowerblue";
     }
     ctx.fillRect(palette.width+200,440,130,40);
+    if(overPendFreeze) {
+        ctx.fillStyle = "blue";
+    } else {
+        ctx.fillStyle = "cornflowerblue";
+    }
+    ctx.fillRect(palette.width+40,560,180,40);
+    if(overRelease) {
+        ctx.fillStyle = "blue";
+    } else {
+        ctx.fillStyle = "cornflowerblue";
+    }
+    ctx.fillRect(palette.width+260,560,130,40);
+    if(overShow) {
+        ctx.fillStyle = "mediumseagreen";
+    } else {
+        ctx.fillStyle = "lightgreen";
+    }
+    ctx.fillRect(palette.width+440,440,140,60);
+    if(overHide) {
+        ctx.fillStyle = "mediumseagreen";
+    } else {
+        ctx.fillStyle = "lightgreen";
+    }
+    ctx.fillRect(palette.width+440,520,140,60);
+    if(overClear) {
+        ctx.fillStyle = "indianred";
+    } else {
+        ctx.fillStyle = "lightcoral";
+    }
+    ctx.fillRect(palette.width+440,600,140,60);
+    
     ctx.fillStyle = "black";
     ctx.font = "bold 18pt Helvetica";
     ctx.fillText("Fix",palette.width+77,348);
@@ -212,6 +209,11 @@ function main() {
     ctx.fillText("Freeze",palette.width+478,348);
     ctx.fillText("All",palette.width+89,468);
     ctx.fillText("Intersect",palette.width+214,468);
+    ctx.fillText("Pend Freeze",palette.width+58,588);
+    ctx.fillText("Release",palette.width+279,588);
+    ctx.fillText("Show",palette.width+478,478);
+    ctx.fillText("Hide",palette.width+485,558);
+    ctx.fillText("Clear",palette.width+481,638);
     ctx.beginPath();
     ctx.strokeStyle = "black";
     ctx.rect(palette.width+40,320,110,40);
@@ -220,6 +222,11 @@ function main() {
     ctx.rect(palette.width+460,320,110,40);
     ctx.rect(palette.width+40,440,130,40);
     ctx.rect(palette.width+200,440,130,40);
+    ctx.rect(palette.width+40,560,180,40);
+    ctx.rect(palette.width+260,560,130,40);
+    ctx.rect(palette.width+440,440,140,60);
+    ctx.rect(palette.width+440,520,140,60);
+    ctx.rect(palette.width+440,600,140,60);
     ctx.stroke();
     ctx.beginPath();
     if(airSetting == "fix") {
@@ -256,9 +263,83 @@ function main() {
         }
     }
     
+    if(pendFreeze) {
+        for(var thick=0; thick<3; thick++) {
+            ctx.rect(palette.width+40-thick,560-thick,180+2*thick,40+2*thick);
+            ctx.stroke();
+        }
+    }
+    
+    if(clickingRelease) {
+        for(var thick=0; thick<3; thick++) {
+            ctx.rect(palette.width+260-thick,560-thick,130+2*thick,40+2*thick);
+            ctx.stroke();
+        }
+    }
+    
+    if(clickingShow) {
+        for(var thick=0; thick<3; thick++) {
+            ctx.rect(palette.width+440-thick,440-thick,140+2*thick,60+2*thick);
+            ctx.stroke();
+        }
+    }
+    if(clickingHide) {
+        for(var thick=0; thick<3; thick++) {
+            ctx.rect(palette.width+440-thick,520-thick,140+2*thick,60+2*thick);
+            ctx.stroke();
+        }
+    }
+    if(clickingClear) {
+        for(var thick=0; thick<3; thick++) {
+            ctx.rect(palette.width+440-thick,600-thick,140+2*thick,60+2*thick);
+            ctx.stroke();
+        }
+    }
+    
+}
+
+
+function main() {
+    
+    //Print Background
+    ctx.fillStyle = "lightblue";
+    ctx.fillRect(0,0,canv.width, canv.height);
+    
+    ctx.beginPath();
+    ctx.strokeStyle = "black";
+    ctx.rect(1,1,palette.width-2,palette.height-2);
+    ctx.stroke();
+    
+    //Print Text
+    ctx.fillStyle="black";
+    ctx.font = "22pt Helvetica";
+    if(loops > densityWait) {
+        density = calcDensity();
+        apxNumIntersections = numIntersections;
+        loops=0;
+    } else {
+        loops++;
+    }
+    ctx.fillText("Circles: "+String(circles.length),palette.width+20,40);
+    ctx.fillText("Density: "+String(Math.round(density*10**4)/10**4),palette.width+300,40);
+    ctx.fillText("Intersections: "+String(apxNumIntersections),palette.width+20,540);
+    
+    ctx.font = "bold 16pt Helvetica";
+    ctx.fillText("Dampening Factor:",palette.width+20,300);
+    ctx.fillText("Update Style:",palette.width+20,420);
+    ctx.fillText("Display:",palette.width+420,420);
+    
+    ctx.fillStyle="gray";
+    ctx.font = "italic 18pt Helvetica";
+    ctx.fillText("Press enter to generate a circle",palette.width+20,palette.height-30);
+    
+    //Print Buttons
+    printButtons();
+    
     
     //Update circles
     if(airSetting!="freeze") {
+        numIntersections = 0;
         for(var i=0; i<circles.length; i++) {   // x , y , r , dx , dy, color
             
             //Slow Down
@@ -289,9 +370,11 @@ function main() {
             for(var j=0; j<circles.length; j++) {
                 if(j==i) { continue; }
                 
-                if(Math.abs(circles[j][0] - circles[i][0]) > 60 || Math.abs(circles[j][1] - circles[i][1]) > 60) { continue; }
+                if(Math.abs(circles[j][0] - circles[i][0]) > 2*(slider1.pos > slider2.pos ? slider1.pos : slider2.pos) || Math.abs(circles[j][1] - circles[i][1]) > 2*(slider1.pos > slider2.pos ? slider1.pos : slider2.pos)) { continue; }
                 
                 if (inside(j,i)) {
+                    
+                    numIntersections++;
                     
                     isIntersecting = true;
                     
@@ -332,19 +415,23 @@ function main() {
         }
     }
     
-    //Print circles
-    for(var i=0; i<circles.length; i++) {
-        ctx.beginPath();
-        ctx.arc(circles[i][0],circles[i][1],circles[i][2],0,2*Math.PI);
-        ctx.strokeStyle = circles[i][5];
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(circles[i][0],circles[i][1],circles[i][2]-1,0,2*Math.PI);
-        ctx.strokeStyle = circles[i][5];
-        ctx.stroke();
+    if(pendFreeze && numIntersections==0) {
+        airSetting = "freeze";
     }
     
-    //printGraph();
+    if(showCircles) {
+        //Print circles
+        for(var i=0; i<circles.length; i++) {
+            ctx.beginPath();
+            ctx.arc(circles[i][0],circles[i][1],circles[i][2],0,2*Math.PI);
+            ctx.strokeStyle = circles[i][5];
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(circles[i][0],circles[i][1],circles[i][2]-1,0,2*Math.PI);
+            ctx.strokeStyle = circles[i][5];
+            ctx.stroke();
+        }
+    }
     
     slider1.show();
     slider2.show();
@@ -404,6 +491,26 @@ function handleMouseDown(evt) {
             slider2.drag = true;
         }
     }
+    if(overRelease) {
+        clickingRelease = true;
+    } else {
+        clickingRelease = false;
+    }
+    if(overShow) {
+        clickingShow = true;
+    } else {
+        clickingShow = false;
+    }
+    if(overHide) {
+        clickingHide = true;
+    } else {
+        clickingHide = false;
+    }
+    if(overClear) {
+        clickingClear = true;
+    } else {
+        clickingClear = false;
+    }
 }
 function handleMouseMove(evt) {
     if(slider1.drag) {
@@ -452,10 +559,39 @@ function handleMouseMove(evt) {
     } else {
         overIntersect = false;
     }
+    if( mouse.x <= palette.width+40+180 && mouse.x >= palette.width+40 && mouse.y >= 560 && mouse.y <= 600) {
+        overPendFreeze = true;
+    } else {
+        overPendFreeze = false;
+    }
+    if( mouse.x <= palette.width+260+130 && mouse.x >= palette.width+260 && mouse.y >= 560 && mouse.y <= 600) {
+        overRelease = true;
+    } else {
+        overRelease = false;
+    }
+    if( mouse.x <= palette.width+580 && mouse.x >= palette.width+440 && mouse.y >= 440 && mouse.y <= 500) {
+        overShow = true;
+    } else {
+        overShow = false;
+    }
+    if( mouse.x <= palette.width+580 && mouse.x >= palette.width+440 && mouse.y >= 520 && mouse.y <= 580) {
+        overHide = true;
+    } else {
+        overHide = false;
+    }
+    if( mouse.x <= palette.width+580 && mouse.x >= palette.width+440 && mouse.y >= 600 && mouse.y <= 680) {
+        overClear = true;
+    } else {
+        overClear = false;
+    }
 }
 function handleMouseUp(evt) {
     slider1.drag = false;
     slider2.drag = false;
+    clickingRelease = false;
+    clickingShow = false;
+    clickingHide = false;
+    clickingClear = false;
 }
 function calculateMousePos(evt) {
     var rect = canv.getBoundingClientRect();
@@ -478,7 +614,6 @@ function handleClick(evt) {
 	
     }
     var largerRadius = (slider1.pos > slider2.pos ? slider1.pos : slider2.pos);
-    console.log(largerRadius);
     if(!onCircle && mouse.x>largerRadius && mouse.x<palette.width-largerRadius && mouse.y>largerRadius && mouse.y<palette.height-largerRadius) {
             radius = selectRadius();
             if(radius==slider1.pos) {
@@ -509,6 +644,23 @@ function handleClick(evt) {
     }
     if(overIntersect) {
         updateSetting = "intersect";
+    }
+    if(overPendFreeze) {
+        pendFreeze = true;
+    }
+    if(overRelease) {
+        pendFreeze = false;
+        airSetting = "natural";
+        scale.air = 0.98;
+    }
+    if(overShow) {
+        showCircles = true;
+    }
+    if(overHide) {
+        showCircles = false;
+    }
+    if(overClear) {
+        circles = [];
     }
 
 }
