@@ -1,0 +1,601 @@
+<html>
+    
+<canvas id="gc" width="1400" height="775"></canvas>
+
+<script>
+    
+window.onload=function() {
+    canv=document.getElementById("gc");
+    ctx=canv.getContext("2d");
+    slider1 = new makeSlider(1);
+    slider2 = new makeSlider(2);
+    t0 = performance.now();
+    ticks = timerUpdate;
+    document.addEventListener("keydown",keyPush);
+    document.addEventListener("mousedown",handleMouseDown);
+    document.addEventListener("mousemove",handleMouseMove);
+    document.addEventListener("mouseup",handleMouseUp);
+    document.addEventListener("click",handleClick);
+    var fps = 2000;
+    setInterval(main,1000/fps);
+}
+var circles = [];
+var points = [];
+var density;
+var loops = 0;
+var densityWait = 50;
+var slider1, slider2;
+var generating = false;
+var radius;
+var altRadius = 0;
+var showCircles = true;
+var overShow, clickingShow, overHide, clickingHide, overClear, clickingClear = false;
+var overFix, overSettle, overNatural, overFreeze, overAll, overIntersect = false;
+var overPendFreeze, overRelease, clickingRelease, pendFreeze = false;
+var airSetting = "natural";
+var updateSetting = "all";
+var numIntersections = 0;
+var apxNumIntersections = 0;
+var palette = new function() {
+    this.width = 775;
+    this.height = 775;
+    this.area = this.width * this.height;
+}
+var t0, t1, time, sum;
+var timerUpdate = 100;
+var ticks;
+var timeEstimate;
+
+//MAKE ALL NEW BUTTONS HERE **************************
+var buttons = []
+
+buttons.push({
+	x: palette.width+40,
+	y: 320,
+	sizeX: 110,
+	sizeY: 40,
+	text: "Fix",
+	textOff: [37,28],
+	colors: ["cornflowerblue","blue",0],
+	action: function() {
+		airSetting = "fix";
+        scale.air = 0.99;
+    },
+   	bold: function() {
+    	return airSetting == "fix";
+    }
+});
+buttons.push({
+	x: palette.width+180,
+	y: 320,
+	sizeX: 110,
+	sizeY: 40,
+	text: "Natural",
+	textOff: [13,28],
+	colors: ["cornflowerblue","blue",0],
+	action: function() {
+		airSetting = "natural";
+		scale.air = 0.98;
+	},
+	bold: function() {
+		return airSetting == "natural";
+	}
+});
+buttons.push({
+	x: palette.width+320,
+	y: 320,
+	sizeX: 110,
+	sizeY: 40,
+	text: "Settle",
+	textOff: [23,28],
+	colors: ["cornflowerblue","blue",0],
+	action: function() {
+		airSetting = "settle";
+		scale.air = 0.94;
+	},
+	bold: function() {
+		return airSetting == "settle";
+	}
+});
+buttons.push({
+	x: palette.width+460,
+	y: 320,
+	sizeX: 110,
+	sizeY: 40,
+	text: "Freeze",
+	textOff: [18,28],
+	colors: ["cornflowerblue","blue",0],
+	action: function() {
+		airSetting = "freeze";
+	},
+	bold: function() {
+		return airSetting == "freeze";
+	}
+});
+buttons.push({
+	x: palette.width+40,
+	y: 440,
+	sizeX: 130,
+	sizeY: 40,
+	text: "All",
+	textOff: [49,28],
+	colors: ["cornflowerblue","blue",0],
+	action: function() {
+		updateSetting = "all";
+	},
+	bold: function() {
+		return updateSetting == "all";
+	}
+});
+buttons.push({
+	x: palette.width+200,
+	y: 440,
+	sizeX: 130,
+	sizeY: 40,
+	text: "Intersect",
+	textOff: [14,28],
+	colors: ["cornflowerblue","blue",0],
+	action: function() {
+		updateSetting = "intersect";
+	},
+	bold: function() {
+		return updateSetting == "intersect";
+	}
+});
+buttons.push({
+	x: palette.width+40,
+	y: 560,
+	sizeX: 180,
+	sizeY: 40,
+	text: "Pend Freeze",
+	textOff: [18,28],
+	colors: ["cornflowerblue","blue",0],
+	action: function() {
+		pendFreeze = true;
+	},
+	bold: function() {
+		return pendFreeze;
+	}
+});
+buttons.push({
+	x: palette.width+260,
+	y: 560,
+	sizeX: 130,
+	sizeY: 40,
+	text: "Release",
+	textOff: [19,28],
+	colors: ["cornflowerblue","blue",0],
+	action: function() {
+		pendFreeze = false;
+		airSetting = "natural";
+        scale.air = 0.98;
+	},
+	bold: function() {
+		return false;
+	}
+});
+buttons.push({
+	x: palette.width+440,
+	y: 440,
+	sizeX: 140,
+	sizeY: 60,
+	text: "Show",
+	textOff: [38,38],
+	colors: ["mediumseagreen","lightgreen",0],
+	action: function() {
+		showCircles = true;
+	},
+	bold: function() {
+		return false;
+	}
+});
+buttons.push({
+	x: palette.width+440,
+	y: 520,
+	sizeX: 140,
+	sizeY: 60,
+	text: "Hide",
+	textOff: [45,38],
+	colors: ["mediumseagreen","lightgreen",0],
+	action: function() {
+		showCircles = false;
+	},
+	bold: function() {
+		return false;
+	}
+});
+buttons.push({
+	x: palette.width+440,
+	y: 600,
+	sizeX: 140,
+	sizeY: 60,
+	text: "Clear",
+	textOff: [41,38],
+	colors: ["indianred","lightcoral",0],
+	action: function() {
+		circles = [];
+	},
+	bold: function() {
+		return false;
+	}
+});
+
+//****************************************************
+
+var scale = new function() {
+    this.up = 0.01;
+    this.grav = 0.5;
+    this.horiz = 0.1;
+    this.down = 0.5;
+    this.air = 0.985;
+}
+
+function makeSlider(id) {
+    var eachHeight = 90;
+    this.left = palette.width+40;
+    this.width = 500;
+    this.top = 200-2*eachHeight+id*eachHeight;
+    this.height = 10;
+    this.pos = 30;
+    this.drag = false;
+    this.id = id;
+    
+    this.show = function() {
+        //Slider Bar
+        ctx.beginPath();
+        ctx.strokeStyle="black";
+        ctx.rect(this.left, this.top, this.width, this.height);
+        ctx.stroke();
+        
+        //Selection Bar
+        ctx.fillStyle="gray";
+        ctx.fillRect(this.left+this.width*this.pos/60-5, this.top-15, 15, 40);
+        ctx.beginPath();
+        ctx.strokeStyle="black";
+        ctx.rect(this.left+this.width*this.pos/60-5, this.top-15, 15, 40);
+        ctx.stroke();
+        
+        //Title
+        ctx.fillStyle="black";
+        ctx.font="bold 16pt Helvetica";
+        ctx.fillText("Radius:",palette.width+20,170-2*eachHeight+this.id*eachHeight);
+        
+        //Value
+        if(this.drag) {
+            ctx.fillStyle="gray";
+        } else {
+            ctx.fillStyle="black";
+        }
+        ctx.font = "12pt Helvetica";
+        ctx.fillText(this.pos, this.left+this.width*this.pos/60-6, this.top+42);
+        
+    }
+}
+
+function inside(c1,c2) {
+    var within;
+    var dist = Math.sqrt( (circles[c1][0] - circles[c2][0])**2 + (circles[c1][1] - circles[c2][1])**2 );
+    if(dist <= circles[c1][2] + circles[c2][2]) {
+        within = true;
+    } else {
+        within = false;
+    }
+    return within;
+}
+
+function calcDensity() {
+    var circleArea=0; //circles.length * 2 * Math.PI * radius ** 2;
+    for(var i=0; i<circles.length; i++) {
+        if(circles[i][1] >= circles[i][2] && circles[i][1] <= palette.height-circles[i][2] && circles[i][0] >= circles[i][2] && circles[i][0] <= palette.width-circles[i][2]) {
+            circleArea += Math.PI * circles[i][2]**2;
+        }
+    }
+    return circleArea / palette.area;
+}
+
+
+function selectRadius() {
+    var r1 = slider1.pos;
+    var r2 = slider2.pos;
+    
+    //Decide Somehow -- right now it'll alternate
+    if(altRadius % 2 == 0) {
+        altRadius++;
+        return r2;
+    } else {
+        altRadius++;
+        return r1;
+    }
+    
+}
+
+function printButtons() {
+	
+	ctx.font = "bold 18pt Helvetica";
+	ctx.strokeStyle = "black";
+	for(var i=0; i<buttons.length; i++) {
+		if(buttons[i].colors[2]) {
+			ctx.fillStyle = buttons[i].colors[1];
+		} else {
+			ctx.fillStyle = buttons[i].colors[0];
+		}
+		ctx.fillRect(buttons[i].x,buttons[i].y,buttons[i].sizeX,buttons[i].sizeY);
+		ctx.strokeRect(buttons[i].x-1,buttons[i].y-1,buttons[i].sizeX+2,buttons[i].sizeY+2);
+		ctx.fillStyle = "black";
+		ctx.fillText(buttons[i].text,buttons[i].x+buttons[i].textOff[0],buttons[i].y+buttons[i].textOff[1]);
+		
+		if(buttons[i].bold()) {
+			for(var thick=0; thick<3; thick++) {
+				ctx.strokeRect(buttons[i].x-thick, buttons[i].y-thick, buttons[i].sizeX+2*thick, buttons[i].sizeY+2*thick);
+			}
+		}
+	}
+    
+}
+
+
+function main() {
+    
+    //Print Background
+    ctx.fillStyle = "lightblue";
+    ctx.fillRect(0,0,canv.width, canv.height);
+    
+    ctx.beginPath();
+    ctx.strokeStyle = "black";
+    ctx.rect(1,1,palette.width-2,palette.height-2);
+    ctx.stroke();
+    
+    //Print Text
+    ctx.fillStyle="black";
+    ctx.font = "22pt Helvetica";
+    if(loops > densityWait) {
+        density = calcDensity();
+        apxNumIntersections = numIntersections;
+        loops=0;
+    } else {
+        loops++;
+    }
+    ctx.fillText("Circles: "+String(circles.length),palette.width+20,40);
+    ctx.fillText("Density: "+String(Math.round(density*10**4)/10**4),palette.width+300,40);
+    ctx.fillText("Intersections: "+String(apxNumIntersections),palette.width+20,540);
+    
+    ctx.font = "bold 16pt Helvetica";
+    ctx.fillText("Dampening Factor:",palette.width+20,300);
+    ctx.fillText("Update Style:",palette.width+20,420);
+    ctx.fillText("Display:",palette.width+420,420);
+    
+    ctx.fillStyle="gray";
+    ctx.font = "italic 18pt Helvetica";
+    ctx.fillText("Press enter to generate a circle",palette.width+20,palette.height-30);
+    
+    //Print Buttons
+    printButtons();
+    
+    
+    //Update circles
+    if(airSetting!="freeze") {
+        numIntersections = 0;
+        for(var i=0; i<circles.length; i++) {   // x , y , r , dx , dy, color
+            
+            //Slow Down
+            circles[i][3] *= scale.air;
+            circles[i][4] *= scale.air;
+            
+            //Don't go through the floor
+            if(circles[i][1]>palette.height - circles[i][2]) {
+                circles[i][4] += -2*(circles[i][4])*(circles[i][4]>0);
+            }
+            
+            //Don't go through the ceiling either
+            if(circles[i][1]<circles[i][2]) {
+                circles[i][4] += -2*(circles[i][4])*(circles[i][4]<0);
+            }
+            
+            //Don't go through the sides
+            if(circles[i][0]>palette.width - circles[i][2]) {
+                circles[i][3] += -2*(circles[i][3])*(circles[i][3]>0);
+            }
+            if(circles[i][0] < circles[i][2]) {
+                circles[i][3] += -2*(circles[i][3])*(circles[i][3]<0);
+            }
+            
+            var isIntersecting = false;
+            
+            //Move if you hit another circle
+            for(var j=0; j<circles.length; j++) {
+                if(j==i) { continue; }
+                
+                if(Math.abs(circles[j][0] - circles[i][0]) > 2*(slider1.pos > slider2.pos ? slider1.pos : slider2.pos) || Math.abs(circles[j][1] - circles[i][1]) > 2*(slider1.pos > slider2.pos ? slider1.pos : slider2.pos)) { continue; }
+                
+                if (inside(j,i)) {
+                    
+                    numIntersections++;
+                    
+                    isIntersecting = true;
+                    
+                    circles[i][3] += scale.horiz*(-(circles[i][0]<circles[j][0]) + (circles[i][0]>=circles[j][0]));
+                    circles[j][3] += scale.horiz*(-(circles[i][0]>=circles[j][0]) + (circles[i][0]<circles[j][0]));
+                
+                    if(circles[i][1]<circles[j][1]) {
+                        circles[i][4] += -scale.up;
+                        circles[j][4] += scale.up;
+                    } else {
+                        circles[i][4] += scale.up;
+                        circles[j][4] += -scale.up;
+                    }
+                    
+                    if(circles[i][0]>=palette.width-circles[i][2]) {
+                        circles[i][0] = palette.width-circles[i][2];
+                    }
+                    if(circles[i][0]<=circles[i][2]) {
+                        circles[i][0] = circles[i][2];
+                    }
+                    if(circles[i][1]>=palette.height-circles[i][2]) {
+                        circles[i][1] = palette.height-circles[i][2];
+                    }
+                    if(circles[i][1]<=circles[i][2]) {
+                        circles[i][1] = circles[i][2];
+                    }
+                    
+                }
+                
+            }
+            
+            if(updateSetting=="all" || (updateSetting=="intersect" && isIntersecting)) {
+                //Update x,y based on dx, dy
+                circles[i][0] += circles[i][3];
+                circles[i][1] += circles[i][4];
+            }
+            
+        }
+    }
+    
+    if(pendFreeze && numIntersections==0) {
+        airSetting = "freeze";
+    }
+    
+    if(showCircles) {
+        //Print circles
+        for(var i=0; i<circles.length; i++) {
+            ctx.beginPath();
+            ctx.arc(circles[i][0],circles[i][1],circles[i][2],0,2*Math.PI);
+            ctx.strokeStyle = circles[i][5];
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(circles[i][0],circles[i][1],circles[i][2]-1,0,2*Math.PI);
+            ctx.strokeStyle = circles[i][5];
+            ctx.stroke();
+        }
+    }
+    
+    slider1.show();
+    slider2.show();
+    t1 = performance.now();
+    time = t1-t0;
+    t0 = performance.now();
+    
+    if(ticks < timerUpdate) {
+        sum += time;
+        ticks++;
+    } else {
+        timeEstimate = sum/timerUpdate;
+        ticks = 0;
+        sum = 0;
+    }
+    
+    ctx.fillStyle = "black";
+    ctx.font = "22pt Helvetica";
+    ctx.fillText("Time (ms) Per Run: "+String(Math.round(timeEstimate*10**3)/10**3),palette.width+20, palette.height-70);
+    
+    
+    
+}
+
+
+function keyPush(evt) {
+    if(evt.keyCode == 13) {
+        radius = selectRadius();
+        var x = Math.random()*(palette.width-radius*2)+radius;
+        var y = Math.random()*(palette.height-radius*2)+radius;
+        if(radius==slider1.pos) {
+            var color = "red";
+        } else {
+            var color = "deeppink";
+        }
+        circles.push( [x, y, radius, 0, 0, color] ); //x, y, r, dx, dy, color
+        points.push(timeEstimate);
+    }
+    if(evt.keyCode == 8) {
+        circles.pop();
+    }
+    if(evt.keyCode == 16) {
+        for(var i=0; i<circles.length; i++) {
+            circles[i][3] += Math.random()*1-0.5;
+            circles[i][4] += Math.random()*1-0.5;
+        }
+    }
+}
+
+function handleMouseDown(evt) {
+    if(generating==false) {
+        var mouse = calculateMousePos(evt);
+        if(mouse.x >= slider1.left+slider1.width*slider1.pos/60-5 && mouse.x <= slider1.left+slider1.width*slider1.pos/60+5 && mouse.y >= slider1.top-15 && mouse.y <= slider1.top+25) { //40 tall, 10 wide
+            slider1.drag = true;
+        }
+        if(mouse.x >= slider2.left+slider2.width*slider2.pos/60-5 && mouse.x <= slider2.left+slider2.width*slider2.pos/60+5 && mouse.y >= slider2.top-15 && mouse.y <= slider2.top+25) { //40 tall, 10 wide
+            slider2.drag = true;
+        }
+    }
+
+}
+
+function handleMouseMove(evt) {
+    if(slider1.drag) {
+        var mouse = calculateMousePos(evt);
+        if(mouse.x >= slider1.left && mouse.x <= slider1.left+slider1.width && mouse.y >= slider1.top-15 && mouse.y <= slider1.top+25) {
+            slider1.pos = Math.round((mouse.x-slider1.left)/slider1.width*60);
+            slider1.pos += slider1.pos==0;
+        }
+    }
+    if(slider2.drag) {
+        var mouse = calculateMousePos(evt);
+        if(mouse.x >= slider2.left && mouse.x <= slider2.left+slider2.width && mouse.y >= slider2.top-15 && mouse.y <= slider2.top+25) {
+            slider2.pos = Math.round((mouse.x-slider2.left)/slider2.width*60);
+            slider2.pos += slider2.pos==0;
+        }
+    }
+    
+    
+    var mouse = calculateMousePos(evt);
+    for(var i=0; i<buttons.length; i++) {
+    	buttons[i].colors[2] = (mouse.x <= buttons[i].x+buttons[i].sizeX && mouse.x >= buttons[i].x && mouse.y >= buttons[i].y && mouse.y <= buttons[i].y + buttons[i].sizeY);
+    }
+    
+    
+}
+function handleMouseUp(evt) {
+    slider1.drag = false;
+    slider2.drag = false;
+}
+function calculateMousePos(evt) {
+    var rect = canv.getBoundingClientRect();
+    var root = document.documentElement;
+    var mouseX = evt.clientX - rect.left - root.scrollLeft;
+    var mouseY = evt.clientY - rect.top - root.scrollTop;
+    return {
+        x:mouseX,
+        y:mouseY
+    };
+}
+function handleClick(evt) {
+    var onCircle = false;
+    var mouse = calculateMousePos(evt);
+    for(var i=0; i<circles.length; i++) {
+        if(mouse.x < circles[i][0]+circles[i][2] && mouse.x > circles[i][0]-circles[i][2] && mouse.y < circles[i][1]+circles[i][2] && mouse.y > circles[i][1]-circles[i][2]) {
+            console.log("Circle: ",i);
+            onCircle = true;
+        }
+	
+    }
+    var largerRadius = (slider1.pos > slider2.pos ? slider1.pos : slider2.pos);
+    if(!onCircle && mouse.x>largerRadius && mouse.x<palette.width-largerRadius && mouse.y>largerRadius && mouse.y<palette.height-largerRadius) {
+            radius = selectRadius();
+            if(radius==slider1.pos) {
+                var color = "red";
+            } else {
+                var color = "deeppink";
+            }
+            circles.push( [mouse.x, mouse.y, radius, 0, 0, color] );
+            points.push(timeEstimate);	
+    }
+    for(var i=0; i<buttons.length; i++) {
+    	if(buttons[i].colors[2]) {
+    		buttons[i].action();
+    	}
+    }
+
+}
+</script>
+
+</html>
+
