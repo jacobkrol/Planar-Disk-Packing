@@ -1,6 +1,12 @@
 <html>
     
 <canvas id="gc" width="1400" height="775"></canvas>
+	
+	<body>
+		<p id="results">
+			...
+		</p>
+	</body>
 
 <script>
     
@@ -31,6 +37,7 @@ var updateSetting = "all";
 var numIntersections = 0;
 var prop = 1;
 var complete = false;
+var results = "Circles  |  Density  |  Proportion<br>";
 var recent = { circles: 0, density: 0, proportion: "null" };
 
 var progress = new function() {
@@ -111,7 +118,7 @@ var scale = new function() {
     this.grav = 0.5;
     this.horiz = 0.05;
     this.down = 0.5;
-    this.air = 0.97;
+    this.air = 0.9999999;
 }
 
 function makeSlider(id,max) {
@@ -304,7 +311,7 @@ function updateCircles() {
 
 function saturated() {
     //determine if it is saturated
-    if(calcDensity() > 0.6) {
+    if(calcDensity() > 0.4) {
         return true;
     } else {
         return false;
@@ -318,7 +325,8 @@ function printOutput() {
 }
 
 function saveOutput() {
-    //Save the most recent output
+	results += String(recent.circles)+","+String(recent.density)+","+String(recent.proportion)+"<br>";
+	document.getElementById("results").innerHTML = results;
 }
 
 function addCircle() {
@@ -491,4 +499,3 @@ function handleClick(evt) {
 </script>
 
 </html>
-
