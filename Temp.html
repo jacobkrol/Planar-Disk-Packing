@@ -1,0 +1,75 @@
+//scale.air for fix=0.99   natural=0.98    settle=0.94
+/*function saturateExperiment() {
+	scale.air=0.94;
+	printCircles();
+	for(var t=0;t<5;t++){
+		while(numIntersections > 70) {
+			for(var i=0;i<circles.length;i++) {
+				if(circles[i][6] == 1) {
+					circles.splice(i,1);
+					for(var i=0; i<circles.length; i++) {
+						circles[i][3] += Math.random()*1-0.5;
+						circles[i][4] += Math.random()*1-0.5;
+					}
+				}
+			}
+		}
+		while(numIntersections < 70) {
+			makeCircle();
+			scale.air=0.99;
+			for(var j=0;j<5;j++){
+				circleUpdate();
+			}
+			scale.air=0.94;
+			for(var j=0;j<20;j++){
+				circleUpdate();
+			}
+		} 
+	if(t>=3) {
+		for(var j=0;j<50;j++){
+			circleUpdate();
+		}
+	}
+	}
+}
+*/
+function saturateExperiment() {
+	
+}
+
+
+function saturateTheoretical() {
+    var r1 = slider1.pos;
+    var r2 = slider2.pos;
+	rad1 = r1*r1;
+	rad2 = r2*r2;
+	divi = rad1+ rad2;
+	var numRad1 = Math.floor(((rad1/divi)*((palette.height-radius*2)*(palette.width-radius*2)))/(2.59807*2r1**2));
+	var numRad2 = Math.floor(((rad2/divi)*((palette.height-radius*2)*(palette.width-radius*2)))/(2.59807*2r2**2));
+	for(var i = 0;i<numRad1;i++) {
+		radius = r1
+		var x = Math.random()*(palette.width-radius*2)+radius;
+		var y = Math.random()*(palette.height-radius*2)+radius;
+		if(radius==slider1.pos) {
+			var color = "red";
+		} else {
+			var color = "deeppink";
+		}
+		var intersect = 0;
+		circles.push( [x, y, radius, 0, 0, color, intersect] );
+	}
+	for(var i = 0;i<numRad2;i++) {
+		radius = r2
+		var x = Math.random()*(palette.width-radius*2)+radius;
+		var y = Math.random()*(palette.height-radius*2)+radius;
+		if(radius==slider1.pos) {
+			var color = "red";
+		} else {
+			var color = "deeppink";
+		}
+		var intersect = 0;
+		circles.push( [x, y, radius, 0, 0, color, intersect] );
+	}
+	printCircles();
+	main();
+}
