@@ -389,44 +389,34 @@ function saturate() {
 				circles[i][3] += Math.random()*1-0.5;
 				circles[i][4] += Math.random()*1-0.5;
 		    }
-			for (var i=0;i<50;i++) {
+			for (var u=0;u<50;u++) {
 				updateCircle();
 			}
 		}
-		if (numIntersections > 1200/slider1.pos) {
+		if (numIntersections > 2500/slider1.pos) {
 			circles.pop();
 		}
 	}
 	console.log("We made it even though we had our backs up against the wall");
 	console.log(circles.length);
 	var threshold = false;
+	updateSetting="all";
+	scale.air = 0.99
 	while (numIntersections == 0 && !threshold) {
-		pendFreeze = false
-		scale.air = 0.98;
-		updateSetting="all";
-		console.log("im stuck in a loop!");
 		makeCircle();
 		for(var t=0; t<circles.length; t++) {
 			circles[t][3] += Math.random()*1-0.5;
 			circles[t][4] += Math.random()*1-0.5;
 		}
-
-		pendFreeze = true;
-		for (var i=0;i<27000;i++) {
-			pendFreeze = true;
+		for (var i=0;i<500;i++) {
 			updateCircle();
 		}
-		if (numIntersections != 0) {
-			circles.pop();
-			threshold = true;
-			while (numIntersections > 0) {
-				console.log("kill me now");
-				updateCircle();
-			}
-		}
+		console.log("Kill me now");
 	}
-	return calcDensity();
+	return true;
 }
+
+
 
 function updateCircle() {
     if(airSetting!="freeze") {
