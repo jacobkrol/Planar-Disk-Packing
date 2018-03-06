@@ -1,0 +1,292 @@
+<html>
+    
+<canvas id="gc" width="1400" height="775"></canvas>
+
+<script>
+    
+window.onload=function() {
+    canv=document.getElementById("gc");
+    ctx=canv.getContext("2d");
+    slider1 = new makeSlider(1);
+    slider2 = new makeSlider(2);
+    t0 = performance.now();
+    ticks = timerUpdate;
+    document.addEventListener("keydown",keyPush);
+    document.addEventListener("mousedown",handleMouseDown);
+    document.addEventListener("mousemove",handleMouseMove);
+    document.addEventListener("mouseup",handleMouseUp);
+    document.addEventListener("click",handleClick);
+    var fps = 5000;
+    setInterval(main,1000/fps);
+}
+var circles = [];
+var density;
+var loops = 0;
+var densityWait = 50;
+var slider1;
+var generating = false;
+var overClear = false;
+var overSave = false;
+var radius;
+var palette = new function() {
+    this.width = 775;
+    this.height = 775;
+    this.area = this.width * this.height;
+}
+var t0, t1, time, sum;
+var timerUpdate = 100;
+var ticks;
+var timeEstimate;
+
+
+function makeSlider(id) {
+    var eachHeight = 90;
+    this.left = palette.width+40;
+    this.width = 500;
+    this.top = 200-2*eachHeight+id*eachHeight;
+    this.height = 10;
+    this.pos = 30;
+    this.drag = false;
+    this.id = id;
+    
+    this.show = function() {
+        //Slider Bar
+        ctx.beginPath();
+        ctx.strokeStyle="black";
+        ctx.rect(this.left, this.top, this.width, this.height);
+        ctx.stroke();
+        
+        //Selection Bar
+        ctx.fillStyle="gray";
+        ctx.fillRect(this.left+this.width*this.pos/60-5, this.top-15, 15, 40);
+        ctx.beginPath();
+        ctx.strokeStyle="black";
+        ctx.rect(this.left+this.width*this.pos/60-5, this.top-15, 15, 40);
+        ctx.stroke();
+        
+        //Title
+        ctx.fillStyle="black";
+        ctx.font="bold 16pt Helvetica";
+        ctx.fillText("Radius:",palette.width+20,170-2*eachHeight+this.id*eachHeight);
+        
+        //Value
+        if(this.drag) {
+            ctx.fillStyle="gray";
+        } else {
+            ctx.fillStyle="black";
+        }
+        ctx.font = "12pt Helvetica";
+        ctx.fillText(this.pos, this.left+this.width*this.pos/60-6, this.top+42);
+        
+    }
+}
+
+
+function calcDensity() {
+    var circleArea=0; //circles.length * 2 * Math.PI * radius ** 2;
+    for(var i=0; i<circles.length; i++) {
+        if(circles[i][1] >= circles[i][2] && circles[i][1] <= palette.height-circles[i][2] && circles[i][0] >= circles[i][2] && circles[i][0] <= palette.width-circles[i][2]) {
+            circleArea += Math.PI * circles[i][2]**2;
+        }
+    }
+    return circleArea / palette.area;
+}
+
+function makeCircle() {
+    var radius = slider1.pos;
+    if(circles.length == 0) {
+        circles.push([radius,palette.height-radius,radius,"red"]);
+    } else if(circles[circles.length-1][0] <= palette.width-3*radius) {
+        circles.push([circles[circles.length-1][0]+2*radius, circles[circles.length-1][1], radius, "red"]);
+    } else if(circles[circles.length-1][1] >= 2*radius*Math.sin(Math.PI/3)+radius) {
+        var x = circles[circles.length-1][0] - radius;
+        while(x >= 3*radius) {
+            x += -2*radius;
+        }
+        var y = circles[circles.length-1][1] - ( 2*radius * Math.sin( Math.PI/3 ) );
+        circles.push([ x, y, radius, "red" ]);
+    } else {
+        generating = false;
+    }
+}
+
+function showButtons() {
+    //Clear Button
+    if(overClear) {
+        ctx.fillStyle = "blue";
+    } else {
+        ctx.fillStyle = "cornflowerblue";
+    }
+    ctx.fillRect(palette.width+40, 200, 120, 60);
+    ctx.font = "bold 18pt Helvetica";
+    ctx.fillStyle = "black";
+    ctx.fillText("Clear", palette.width+69, 238);
+    ctx.beginPath();
+    ctx.strokeStyle = "black";
+    ctx.rect(palette.width+40, 200, 120, 60);
+    ctx.rect(palette.width+40, 200, 120, 60);
+    ctx.stroke();
+    
+    //Save To File Button
+    if(overSave) {
+        ctx.fillStyle = "blue";
+    } else {
+        ctx.fillStyle = "cornflowerblue";
+    }
+    ctx.fillRect(palette.width+40, 280, 120, 60);
+    ctx.font = "bold 18pt Helvetica";
+    ctx.fillStyle = "black";
+    ctx.fillText("Save", palette.width+72, 318);
+    ctx.beginPath();
+    ctx.strokeStyle = "black";
+    ctx.rect(palette.width+40, 280, 120, 60);
+    ctx.rect(palette.width+40, 280, 120, 60);
+    ctx.stroke();
+}
+
+function main() {
+    
+    //Print Background
+    ctx.fillStyle = "lightblue";
+    ctx.fillRect(0,0,canv.width, canv.height);
+    
+    ctx.beginPath();
+    ctx.strokeStyle = "black";
+    ctx.rect(1,1,palette.width-2,palette.height-2);
+    ctx.stroke();
+    
+    //Print Text
+    ctx.fillStyle="black";
+    ctx.font = "22pt Helvetica";
+    if(loops > densityWait) {
+        density = calcDensity();
+        loops=0;
+    } else {
+        loops++;
+    }
+    ctx.fillText("Circles: "+String(circles.length),palette.width+20,40);
+    ctx.fillText("Density: "+String(Math.round(density*10**4)/10**4),palette.width+300,40);
+    
+    ctx.fillStyle="gray";
+    ctx.font = "italic 18pt Helvetica";
+    ctx.fillText("Press enter to toggle generating",palette.width+20,palette.height-30);
+
+    //Generate Circles
+    if(generating) {
+        makeCircle();
+    }
+    
+    //Buttons
+    showButtons();
+    
+    if(generating == false) {
+        //Print circles
+        for(var i=0; i<circles.length; i++) {
+            ctx.beginPath();
+            ctx.arc(circles[i][0],circles[i][1],circles[i][2],0,2*Math.PI);
+            ctx.strokeStyle = circles[i][3];
+            ctx.stroke();
+        }
+    }
+    
+    slider1.show();
+    t1 = performance.now();
+    time = t1-t0;
+    t0 = performance.now();
+    
+    if(ticks < timerUpdate) {
+        sum += time;
+        ticks++;
+    } else {
+        timeEstimate = sum/timerUpdate;
+        ticks = 0;
+        sum = 0;
+    }
+    
+    ctx.fillStyle = "black";
+    ctx.font = "22pt Helvetica";
+    ctx.fillText("Time (ms) Per Run: "+String(Math.round(timeEstimate*10**3)/10**3),palette.width+20, palette.height-70);
+    
+}
+
+
+function keyPush(evt) {
+    if(evt.keyCode == 13) {
+        generating = !generating;
+    }
+    if(evt.keyCode == 8) {
+        circles.pop();
+    }
+}
+
+function handleMouseDown(evt) {
+    if(generating==false) {
+        var mouse = calculateMousePos(evt);
+        if(mouse.x >= slider1.left+slider1.width*slider1.pos/60-5 && mouse.x <= slider1.left+slider1.width*slider1.pos/60+5 && mouse.y >= slider1.top-15 && mouse.y <= slider1.top+25) { //40 tall, 10 wide
+            slider1.drag = true;
+        }
+    }
+}
+function handleMouseMove(evt) {
+    if(slider1.drag) {
+        var mouse = calculateMousePos(evt);
+        if(mouse.x >= slider1.left && mouse.x <= slider1.left+slider1.width && mouse.y >= slider1.top-15 && mouse.y <= slider1.top+25) {
+            slider1.pos = Math.round((mouse.x-slider1.left)/slider1.width*60);
+            slider1.pos += slider1.pos==0;
+        }
+    }
+    var mouse = calculateMousePos(evt);
+    if(mouse.x >= palette.width+40 && mouse.x <= palette.width+160 && mouse.y >= 200 && mouse.y <= 260) {
+        overClear = true;
+    } else {
+        overClear = false;
+    }
+    if(mouse.x >= palette.width+40 && mouse.x <= palette.width+160 && mouse.y >= 280 && mouse.y <= 340) {
+        overSave = true;
+    } else {
+        overSave = false;
+    }
+}
+
+
+function handleMouseUp(evt) {
+    slider1.drag = false;
+}
+
+
+function calculateMousePos(evt) {
+    var rect = canv.getBoundingClientRect();
+    var root = document.documentElement;
+    var mouseX = evt.clientX - rect.left - root.scrollLeft;
+    var mouseY = evt.clientY - rect.top - root.scrollTop;
+    return {
+        x:mouseX,
+        y:mouseY
+    };
+}
+
+
+function handleClick(evt) {
+    var onCircle = false;
+    var mouse = calculateMousePos(evt);
+    for(var i=0; i<circles.length; i++) {
+        if(mouse.x < circles[i][0]+circles[i][2] && mouse.x > circles[i][0]-circles[i][2] && mouse.y < circles[i][1]+circles[i][2] && mouse.y > circles[i][1]-circles[i][2]) {
+            console.log("Circle: ",i);
+            onCircle = true;
+        }
+	
+    }
+    if(overClear) {
+        circles = [];
+        generating = false;
+    }
+    if(overSave && !generating) {
+        saveToFile();
+    }
+}
+
+
+</script>
+
+</html>
+
