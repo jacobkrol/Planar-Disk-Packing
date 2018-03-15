@@ -1,0 +1,9 @@
+Topics discussed: 
+
+Saturation function implementation: We still do not have a scalable or automatic saturation function for data collection. Implementing the additively weighted voronoi diagram algorithm into our program will help with solving this.
+
+Indirect data collection: We have observed that the behaviour (speed) of our data collector varies depending on the ratios of two species disks that we are attempting to pack. Data collected on this behaviour could be useful in lieu of a saturation function. 
+
+Converting inputed ratios of disks into proportions of disks: Problem is solved by simply disregarding the inputed (intended) ratio of disks and used the ratio of actual cirlces  created given our constraints to avoid having to convert a rational/irrational number into an approximate fraction.
+
+Buffer zone disk area calculations: Calculating an area of the disks intersecting with the "inner box" within the palette needs to be done differently depending on the disk along the perimeter of the inner box. Corner and edge cases need to be considered. 
