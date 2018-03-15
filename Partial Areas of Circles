@@ -1,0 +1,299 @@
+<html>
+
+<canvas id="gc" width="1100" height="600"></canvas>
+
+<script>
+window.onload=function() {
+	canv = document.getElementById("gc");
+	ctx = canv.getContext("2d");
+	document.addEventListener("mousedown",function() {circle.drag = true});
+	document.addEventListener("mousemove",handleMouseMove);
+	document.addEventListener("mouseup",function() {circle.drag = false});
+	var fps = 25;
+	setInterval(main,1000/fps);
+}
+
+var palette = new function() {
+	this.width = 400;
+	this.height = 400;
+	this.border = 100;
+}
+
+var circle = {x: 200, y: 200, r: 50, drag: false};
+
+function sectorArea() {
+	//circle.r**2 = (x-circle.x)**2 + (y-circle.y)**2;
+	var theta = 2* ( Math.abs(  ) );
+	var pointDist;
+	
+	if( /*ALL OUT*/ circle.x < palette.border-circle.r || circle.x > palette.border+palette.width+circle.r || 
+	circle.y < palette.border-circle.r || circle.y > palette.border+palette.height+circle.r) {
+		return 0;
+	}
+	if( /*ALL INSIDE*/ circle.x >= palette.border+circle.r && circle.x <= palette.border+palette.width-circle.r &&
+	circle.y >= palette.border+circle.r && circle.y <= palette.border+palette.width-circle.r) {
+		return Math.PI*circle.r**2;
+	}
+	
+	//EDGE IN
+	if( /*TOP*/circle.y >= 100 && circle.y <= 100+circle.r && circle.x >= 100 && circle.x <= 500 ) {
+		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		pointDist = Math.abs(x2 - x1);
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*NOT ON CORNER*/ circle.x+circle.r <= 500 && circle.x-circle.r >= 100) { 
+			return (Math.PI*circle.r**2) - 0.5*circle.r**2*(theta - Math.sin(theta)); 
+		}
+	} else if( /*BOTTOM*/ circle.y <= 500 && circle.y >= 500-circle.r && circle.x >= 100 && circle.x <= 500 ) {
+		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		pointDist = Math.abs(x2 - x1);
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*NOT ON CORNER*/ circle.x+circle.r <= 500 && circle.x-circle.r >= 100) {
+			return (Math.PI*circle.r**2) - 0.5*circle.r**2*(theta - Math.sin(theta));
+		}
+	} else if( /*LEFT*/ circle.x >= 100 && circle.x <= 100+circle.r && circle.y >= 100 && circle.y <= 500 ) {
+		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		var y2 = circle.y - Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		pointDist = Math.abs(y2 - y1);
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*NOT ON CORNER*/ circle.y+circle.r <= 500 && circle.y-circle.r >= 100) {
+			return (Math.PI*circle.r**2) - 0.5*circle.r**2*(theta - Math.sin(theta)); 
+		}
+	} else if( /*RIGHT*/ circle.x <= 500 && circle.x >= 500-circle.r && circle.y >= 100 && circle.y <= 500 ) {
+		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		var y2 = circle.y - Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		pointDist = Math.abs(y2 - y1);
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*NOT ON CORNER*/ circle.y+circle.r <= 500 && circle.y-circle.r >= 100) {
+			return (Math.PI*circle.r**2) - 0.5*circle.r**2*(theta - Math.sin(theta));
+		}
+	}
+	
+	//EDGE OUT
+	if( /*ABOVE*/ circle.y < 100 && circle.x >= 100 && circle.x <= 500 ) {
+		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		pointDist = Math.abs(x2 - x1);
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*NOT ON CORNER*/ x1 <= 500 && x2 >= 100) { return 0.5*circle.r**2*(theta - Math.sin(theta)); }
+	} else if( /*BELOW*/ circle.y > 500 && circle.x >= 100 && circle.x <= 500 ) {
+		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		pointDist = Math.abs(x2 - x1);
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*NOT ON CORNER*/ x1 <= 500 && x2 >= 100) { return 0.5*circle.r**2*(theta - Math.sin(theta)); }
+	} else if( /*LEFT*/ circle.x < 100 && circle.y >= 100 && circle.y <= 500 ) {
+		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		var y2 = circle.y - Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		pointDist = Math.abs(y2 - y1);
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*NOT ON CORNER*/ y1 <= 500 && y2 >= 100) { return 0.5*circle.r**2*(theta - Math.sin(theta)); }
+	} else if( /*RIGHT*/ circle.x > 500 && circle.y >= 100 && circle.y <= 500 ) {
+		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		var y2 = circle.y - Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		pointDist = Math.abs(y2 - y1);
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*NOT ON CORNER*/ y1 <= 500 && y2 >= 100) { return 0.5*circle.r**2*(theta - Math.sin(theta)); }
+	}
+	
+	//CORNER BOTH OUT
+	if( /*TL*/ circle.y < 100 && circle.x < 100 ){
+		var x = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		var b1 = x - 100;
+		var y = circle.y + Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		var b2 = y - 100;
+		var h1 = 100 - circle.y;
+		var h2 = 100 - circle.x;
+		var pointDist = Math.sqrt( (100-x)**2 + (100-y)**2 );
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		return theta*circle.r**2/2 - 0.5*b1*h1 - 0.5*b2*h2;
+	} else if( /*BL*/ circle.y > 500 && circle.x < 100 ){
+		var x = circle.x + Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		var b1 = x - 100;
+		var y = circle.y - Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		var b2 = 500 - y;
+		var h1 = circle.y - 500;
+		var h2 = 100 - circle.x;
+		var pointDist = Math.sqrt( (100-x)**2 + (500-y)**2 );
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		return theta*circle.r**2/2 - 0.5*b1*h1 - 0.5*b2*h2;
+	} else if( /*TR*/ circle.y < 100 && circle.x > 500 ){
+		var x = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		var b1 = 500 - x;
+		var y = circle.y + Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		var b2 = y - 100;
+		var h1 = 100 - circle.y;
+		var h2 = circle.x - 500;
+		var pointDist = Math.sqrt( (500-x)**2 + (100-y)**2 );
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		return theta*circle.r**2/2 - 0.5*b1*h1 - 0.5*b2*h2;
+	} else if( /*BR*/ circle.y > 500 && circle.x > 500 ){
+		var x = circle.x - Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		var b1 = 500 - x;
+		var y = circle.y - Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		var b2 = 500 - y;
+		var h1 = circle.y - 500;
+		var h2 = circle.x - 500;
+		var pointDist = Math.sqrt( (500-x)**2 + (500-y)**2 );
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		return theta*circle.r**2/2 - 0.5*b1*h1 - 0.5*b2*h2;
+	}
+	
+	//FULL CORNER ONE OR BOTH IN
+	if( /*TL*/ circle.y <= 100+circle.r && circle.x <= 100+circle.r ){
+		var x = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		var b1 = x - 100;
+		var y = circle.y + Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		var b2 = y - 100;
+		var h1 = circle.y - 100;
+		var h2 = circle.x - 100;
+		var pointDist = Math.sqrt( (100-x)**2 + (100-y)**2 );
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*COVERS CORNER*/ Math.sqrt((100-circle.x)**2 + (100-circle.y)**2) <= circle.r ) { 
+			return theta*circle.r**2/2 + 0.5*b1*h1 + 0.5*b2*h2; 
+		}
+	} else if( /*BL*/ circle.y >= 500-circle.r && circle.x <= 100+circle.r ){
+		var x = circle.x + Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		var b1 = x - 100;
+		var y = circle.y - Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		var b2 = 500 - y;
+		var h1 = 500 - circle.y;
+		var h2 = circle.x - 100;
+		var pointDist = Math.sqrt( (100-x)**2 + (500-y)**2 );
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*COVERS CORNER*/ Math.sqrt((100-circle.x)**2 + (500-circle.y)**2) <= circle.r ) { 
+			return theta*circle.r**2/2 + 0.5*b1*h1 + 0.5*b2*h2; 
+		}
+	} else if( /*TR*/ circle.y <= 100+circle.r && circle.x >= 500-circle.r ){
+		var x = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		var b1 = 500 - x;
+		var y = circle.y + Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		var b2 = y - 100;
+		var h1 = circle.y - 100;
+		var h2 = 500 - circle.x;
+		var pointDist = Math.sqrt( (500-x)**2 + (100-y)**2 );
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*COVERS CORNER*/ Math.sqrt((500-circle.x)**2 + (100-circle.y)**2) <= circle.r ) { 
+			return theta*circle.r**2/2 + 0.5*b1*h1 + 0.5*b2*h2; 
+		}
+	} else if( /*BR*/ circle.y >= 500-circle.r && circle.x >= 500-circle.r ){
+		var x = circle.x - Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		var b1 = 500 - x;
+		var y = circle.y - Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		var b2 = 500 - y;
+		var h1 = 500 - circle.y;
+		var h2 = 500 - circle.x;
+		var pointDist = Math.sqrt( (500-x)**2 + (500-y)**2 );
+		var theta = 2*Math.asin(0.5*pointDist/circle.r);
+		if( /*COVERS CORNER*/ Math.sqrt((500-circle.x)**2 + (500-circle.y)**2) <= circle.r ) { 
+			return theta*circle.r**2/2 + 0.5*b1*h1 + 0.5*b2*h2; 
+		}
+	}
+	
+	//PART CORNER BOTH IN
+	if( /*TL*/ circle.y <= 100+circle.r && circle.x <= 100+circle.r ){
+		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		var y2 = circle.y - Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		var pointDist1 = x1-x2;
+		var theta1 = 2*Math.asin(0.5*pointDist1/circle.r);
+		var pointDist2 = y1-y2;
+		var theta2 = 2*Math.asin(0.5*pointDist2/circle.r);
+		return (2*Math.PI-theta1-theta2)/(Math.PI*2)*(Math.PI*circle.r**2) + 
+			0.5*circle.r**2*Math.sin(theta1) + 0.5*circle.r**2*Math.sin(theta2);
+	} else if( /*BL*/ circle.y >= 500-circle.r && circle.x <= 100+circle.r ){
+		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border+-circle.x)**2);
+		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		var y2 = circle.y - Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
+		var pointDist1 = x1-x2;
+		var theta1 = 2*Math.asin(0.5*pointDist1/circle.r);
+		var pointDist2 = y1-y2;
+		var theta2 = 2*Math.asin(0.5*pointDist2/circle.r);
+		return (2*Math.PI-theta1-theta2)/(Math.PI*2)*(Math.PI*circle.r**2) + 
+			0.5*circle.r**2*Math.sin(theta1) + 0.5*circle.r**2*Math.sin(theta2);
+	} else if( /*TR*/ circle.y <= 100+circle.r && circle.x >= 500-circle.r ){
+		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
+		var y2 = circle.y - Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		var pointDist1 = x1-x2;
+		var theta1 = 2*Math.asin(0.5*pointDist1/circle.r);
+		var pointDist2 = y1-y2;
+		var theta2 = 2*Math.asin(0.5*pointDist2/circle.r);
+		return (2*Math.PI-theta1-theta2)/(Math.PI*2)*(Math.PI*circle.r**2) + 
+			0.5*circle.r**2*Math.sin(theta1) + 0.5*circle.r**2*Math.sin(theta2);
+	} else if( /*BR*/ circle.y >= 500-circle.r && circle.x >= 500-circle.r ){
+		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
+		var y2 = circle.y - Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
+		var pointDist1 = x1-x2;
+		var theta1 = 2*Math.asin(0.5*pointDist1/circle.r);
+		var pointDist2 = y1-y2;
+		var theta2 = 2*Math.asin(0.5*pointDist2/circle.r);
+		return (2*Math.PI-theta1-theta2)/(Math.PI*2)*(Math.PI*circle.r**2) + 
+			0.5*circle.r**2*Math.sin(theta1) + 0.5*circle.r**2*Math.sin(theta2);
+	}
+	
+}
+
+function main() {
+	
+	//print background
+	ctx.fillStyle = "white";
+	ctx.fillRect(0,0,canv.width,canv.height);
+	ctx.fillStyle = "skyblue";
+	ctx.fillRect(palette.width+palette.border*2+50,0,canv.width-palette.width+palette.border*2,palette.height+palette.border*2);
+	ctx.fillStyle = "lightblue";
+	ctx.fillRect(0,0,palette.width+palette.border*2,palette.height+palette.border*2);
+	
+	//print box
+	ctx.beginPath();
+	ctx.strokeStyle = "black";
+	ctx.strokeRect(palette.border, palette.border, palette.width, palette.height);
+	ctx.strokeRect(palette.border+1, palette.border+1, palette.width-2, palette.height-2);
+
+	//print circle
+	ctx.beginPath();
+	ctx.strokeStyle = "red";
+	ctx.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI);
+	ctx.arc(circle.x, circle.y, circle.r-1, 0, 2*Math.PI);
+	ctx.stroke();
+	ctx.beginPath();
+	for(var i=0; i<5; i++) {
+		ctx.arc(circle.x, circle.y, i+1, 0, 2*Math.PI);
+	}
+	ctx.stroke();
+	
+	//print stats
+	ctx.fillStyle = "black";
+	ctx.font = "bold 20pt Helvetica";
+	ctx.fillText("Area of Circle: "+Math.round(10**2*Math.PI*circle.r**2)/10**2,670,120);
+	ctx.fillText("Area of Sector: "+Math.round(10**2*sectorArea())/10**2,670,180);
+
+}
+
+function calculateMousePos(evt) {
+    var rect = canv.getBoundingClientRect();
+    var root = document.documentElement;
+    var mouseX = evt.clientX - rect.left - root.scrollLeft;
+    var mouseY = evt.clientY - rect.top - root.scrollTop;
+    return {
+        x:mouseX,
+        y:mouseY
+    };
+}
+
+function handleMouseMove(evt) {
+	var mouse = calculateMousePos(evt);
+	if(mouse.x <= 600 && mouse.y <= 600 && circle.drag) {
+		circle.x = mouse.x;
+		circle.y = mouse.y;
+	}
+}
+</script>
+
+</html>
