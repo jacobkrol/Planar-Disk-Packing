@@ -23,9 +23,6 @@ var circle = {x: 200, y: 200, r: 50, drag: false};
 
 function sectorArea() {
 	//circle.r**2 = (x-circle.x)**2 + (y-circle.y)**2;
-	var theta = 2* ( Math.abs(  ) );
-	var pointDist;
-	
 	if( /*ALL OUT*/ circle.x < palette.border-circle.r || circle.x > palette.border+palette.width+circle.r || 
 	circle.y < palette.border-circle.r || circle.y > palette.border+palette.height+circle.r) {
 		return 0;
@@ -35,7 +32,7 @@ function sectorArea() {
 		return Math.PI*circle.r**2;
 	}
 	
-	//EDGE IN
+	//EDGE IN Case 2
 	if( /*TOP*/circle.y >= 100 && circle.y <= 100+circle.r && circle.x >= 100 && circle.x <= 500 ) {
 		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
 		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
@@ -70,7 +67,7 @@ function sectorArea() {
 		}
 	}
 	
-	//EDGE OUT
+	//EDGE OUT Case 1
 	if( /*ABOVE*/ circle.y < 100 && circle.x >= 100 && circle.x <= 500 ) {
 		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
 		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
@@ -97,8 +94,8 @@ function sectorArea() {
 		if( /*NOT ON CORNER*/ y1 <= 500 && y2 >= 100) { return 0.5*circle.r**2*(theta - Math.sin(theta)); }
 	}
 	
-	//CORNER BOTH OUT
-	if( /*TL*/ circle.y < 100 && circle.x < 100 ){
+	//CORNER BOTH OUT Case 3
+	if( /*TL*/ circle.y < 100 && circle.x < 100 && Math.sqrt((circle.x-100)**2+(circle.y-100)**2) < circle.r){
 		var x = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
 		var b1 = x - 100;
 		var y = circle.y + Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
@@ -108,7 +105,7 @@ function sectorArea() {
 		var pointDist = Math.sqrt( (100-x)**2 + (100-y)**2 );
 		var theta = 2*Math.asin(0.5*pointDist/circle.r);
 		return theta*circle.r**2/2 - 0.5*b1*h1 - 0.5*b2*h2;
-	} else if( /*BL*/ circle.y > 500 && circle.x < 100 ){
+	} else if( /*BL*/ circle.y > 500 && circle.x < 100 && Math.sqrt((circle.x-100)**2+(circle.y-500)**2) < circle.r){
 		var x = circle.x + Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
 		var b1 = x - 100;
 		var y = circle.y - Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
@@ -118,7 +115,8 @@ function sectorArea() {
 		var pointDist = Math.sqrt( (100-x)**2 + (500-y)**2 );
 		var theta = 2*Math.asin(0.5*pointDist/circle.r);
 		return theta*circle.r**2/2 - 0.5*b1*h1 - 0.5*b2*h2;
-	} else if( /*TR*/ circle.y < 100 && circle.x > 500 ){
+	} else if( /*TR*/ circle.y < 100 && circle.x > 500 && Math.sqrt((circle.x-500)**2+(circle.y-100)**2) < circle.r){
+		console.log("what");
 		var x = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
 		var b1 = 500 - x;
 		var y = circle.y + Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
@@ -128,7 +126,7 @@ function sectorArea() {
 		var pointDist = Math.sqrt( (500-x)**2 + (100-y)**2 );
 		var theta = 2*Math.asin(0.5*pointDist/circle.r);
 		return theta*circle.r**2/2 - 0.5*b1*h1 - 0.5*b2*h2;
-	} else if( /*BR*/ circle.y > 500 && circle.x > 500 ){
+	} else if( /*BR*/ circle.y > 500 && circle.x > 500 && Math.sqrt((circle.x-500)**2+(circle.y-500)**2) < circle.r){
 		var x = circle.x - Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
 		var b1 = 500 - x;
 		var y = circle.y - Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
@@ -191,8 +189,8 @@ function sectorArea() {
 		}
 	}
 	
-	//PART CORNER BOTH IN
-	if( /*TL*/ circle.y <= 100+circle.r && circle.x <= 100+circle.r ){
+	//PART CORNER BOTH IN Case 6
+	if( /*TL*/ circle.y <= 100+circle.r && circle.x <= 100+circle.r && circle.y >= 100 && circle.x >= 100){
 		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
 		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border-circle.x)**2);
 		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
@@ -203,7 +201,7 @@ function sectorArea() {
 		var theta2 = 2*Math.asin(0.5*pointDist2/circle.r);
 		return (2*Math.PI-theta1-theta2)/(Math.PI*2)*(Math.PI*circle.r**2) + 
 			0.5*circle.r**2*Math.sin(theta1) + 0.5*circle.r**2*Math.sin(theta2);
-	} else if( /*BL*/ circle.y >= 500-circle.r && circle.x <= 100+circle.r ){
+	} else if( /*BL*/ circle.y >= 500-circle.r && circle.x <= 100+circle.r && circle.y <= 500 && circle.x >= 100){
 		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
 		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border+-circle.x)**2);
 		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
@@ -214,7 +212,8 @@ function sectorArea() {
 		var theta2 = 2*Math.asin(0.5*pointDist2/circle.r);
 		return (2*Math.PI-theta1-theta2)/(Math.PI*2)*(Math.PI*circle.r**2) + 
 			0.5*circle.r**2*Math.sin(theta1) + 0.5*circle.r**2*Math.sin(theta2);
-	} else if( /*TR*/ circle.y <= 100+circle.r && circle.x >= 500-circle.r ){
+	} else if( /*TR*/ circle.y <= 100+circle.r && circle.x >= 500-circle.r && circle.y >= 100 && circle.x <= 500){
+		console.log("Top right");
 		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
 		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
 		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border-circle.y)**2);
@@ -225,7 +224,7 @@ function sectorArea() {
 		var theta2 = 2*Math.asin(0.5*pointDist2/circle.r);
 		return (2*Math.PI-theta1-theta2)/(Math.PI*2)*(Math.PI*circle.r**2) + 
 			0.5*circle.r**2*Math.sin(theta1) + 0.5*circle.r**2*Math.sin(theta2);
-	} else if( /*BR*/ circle.y >= 500-circle.r && circle.x >= 500-circle.r ){
+	} else if( /*BR*/ circle.y >= 500-circle.r && circle.x >= 500-circle.r && circle.y <= 500 && circle.x <= 500){
 		var x1 = circle.x + Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
 		var y1 = circle.y + Math.sqrt(circle.r**2 - (palette.border+palette.width-circle.x)**2);
 		var x2 = circle.x - Math.sqrt(circle.r**2 - (palette.border+palette.height-circle.y)**2);
@@ -237,7 +236,7 @@ function sectorArea() {
 		return (2*Math.PI-theta1-theta2)/(Math.PI*2)*(Math.PI*circle.r**2) + 
 			0.5*circle.r**2*Math.sin(theta1) + 0.5*circle.r**2*Math.sin(theta2);
 	}
-	
+	return 0;
 }
 
 function main() {
