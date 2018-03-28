@@ -291,8 +291,12 @@ function inside(c1,c2) {
     var dist = Math.sqrt( (circles[c1][0] - circles[c2][0])**2 + (circles[c1][1] - circles[c2][1])**2 );
     if(dist <= circles[c1][2] + circles[c2][2]) {
         within = true;
+		circles[c1][6] = 1;
+		circles[c2][6] = 1;
     } else {
         within = false;
+		circles[c1][6] = 0;
+		circles[c2][6] = 0;
     }
     return within;
 }
@@ -372,7 +376,7 @@ function printCircle() {
 		ctx.stroke();
 	}
 }
-
+//scale.air 0.99=fix,0.98=natural,0.94=settle
 function saturate() {
 	while (numIntersections > 0) {
 		scale.air = 0.99;
@@ -397,7 +401,7 @@ function saturate() {
 			circles.pop();
 		}
 	}
-	console.log("We made it even though we had our backs up against the wall");
+	console.log("We made it");
 	console.log(circles.length);
 	var threshold = false;
 	updateSetting="all";
@@ -414,6 +418,17 @@ function saturate() {
 		console.log("Kill me now");
 	}
 	return true;
+}
+
+function saturate_1() {
+	for (var i=0;i<circles.length;i++) {
+		if (circles[i][6] == 1) {
+			circles.splice(i,1)
+		}
+		for (var u=0;u<50;u++) {
+			updateCircle()
+		}
+	}
 }
 
 
@@ -665,7 +680,8 @@ function keyPush(evt) {
         } else {
             var color = "deeppink";
         }
-        circles.push( [x, y, radius, 0, 0, color] ); //x, y, r, dx, dy, color
+		var intersect = 0
+        circles.push( [x, y, radius, 0, 0, color, intersect] ); //x, y, r, dx, dy, color
         points.push(timeEstimate);
     }
     if(evt.keyCode == 8) {
