@@ -426,6 +426,8 @@ function saturate_1() {
 	var plateau_1 = 0;
 	var plateau_2 = 0;
 	var threshold = 0;
+	
+	
 	for (var i=0;i<circles.length;i++) {
 		// Tests if circles.length has changed in a certain amount of for loops
 		if (plateau_2 == plateau_1) {
@@ -435,12 +437,15 @@ function saturate_1() {
 			break;
 		}
 		
+		
 		// Diagnostics
 		console.log(i);
 		console.log(circles.length);
 		console.log(threshold)
 		console.log(100*((i+1)/circles.length));
 		console.log("==========================");
+		
+		// Deletion of circles and update time
 		plateau_1 = circles.length;
 		if (circles[i][6] == 1) {
 			circles.splice(i,1);
