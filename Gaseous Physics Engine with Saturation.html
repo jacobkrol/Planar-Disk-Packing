@@ -228,7 +228,7 @@ buttons.push({
 	textOff: [26,38],
 	colors: ["mediumseagreen","lightgreen",0],
 	action: function() {
-		saturate();
+		saturate_1();
 	},
 	bold: function() {
 		return false;
@@ -421,6 +421,9 @@ function saturate() {
 }
 
 function saturate_1() {
+	while (calcDensity() < 0.95) {
+		makeCircle();
+	}
 	// Optinal scale.air adjustment 
 	//scale.air = 0.94;
 	var plateau_1 = 0;
