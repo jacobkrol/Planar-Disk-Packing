@@ -421,8 +421,11 @@ function saturate() {
 }
 
 function saturate_1() {
-	while (calcDensity() < 0.95) {
-		makeCircle();
+	// Option to over saturate the palette by yourself or have the function do it
+	if (circles.length == 0) {
+		while (calcDensity() < 0.95) {
+			makeCircle();
+		}
 	}
 	// Optinal scale.air adjustment 
 	//scale.air = 0.94;
