@@ -463,8 +463,23 @@ function saturate_1() {
 		plateau_2 = circles.length;
 	}
 }
-
-
+	
+function saturate_2() {
+	//scale.air = 0.94;
+	var percent = numIntersections;
+	while(numIntersections != 0){
+		circles.pop();
+		for (var u = 0;u<20;u++){
+			updateSetting = "intersect";
+			updateCircle();
+		}
+		console.log(numIntersections);
+		console.log(circles.length);
+		console.log(80*((numIntersections+1)/percent)+15);
+		console.log("++++++++++++++++++++++++");
+	}
+	scale.air = 0.98;
+}
 
 function updateCircle() {
     if(airSetting!="freeze") {
