@@ -377,59 +377,15 @@ function printCircle() {
 	}
 }
 //scale.air 0.99=fix,0.98=natural,0.94=settle
-function saturate() {
-	while (numIntersections > 0) {
-		scale.air = 0.99;
-		for (var i=0;i<50;i++) {
-			updateCircle();
-		}
-		scale.air = 0.94;
-		for (var i=0;i<50;i++) {
-			updateCircle();
-		}
-		updateSetting="intersect";
-		for(var t=0; t<5;t++){
-			for(var i=0; i<circles.length; i++) {
-				circles[i][3] += Math.random()*1-0.5;
-				circles[i][4] += Math.random()*1-0.5;
-		    }
-			for (var u=0;u<50;u++) {
-				updateCircle();
-			}
-		}
-		if (numIntersections > 2500/slider1.pos) {
-			circles.pop();
-		}
-	}
-	console.log("We made it");
-	console.log(circles.length);
-	var threshold = false;
-	updateSetting="all";
-	scale.air = 0.99
-	while (numIntersections == 0 && !threshold) {
-		makeCircle();
-		for(var t=0; t<circles.length; t++) {
-			circles[t][3] += Math.random()*1-0.5;
-			circles[t][4] += Math.random()*1-0.5;
-		}
-		for (var i=0;i<500;i++) {
-			updateCircle();
-		}
-		console.log("Kill me now");
-	}
-	return true;
-}
 
 function saturate(){
 	if(circles.length == 0){
 		while(calcDensity()<0.95){
-			console.log("makin cirlces");
 			makeCircle();
 		}
 	}
 	updateCircle();
 	scale.air = 0.99;
-	//updateSetting = "intersect";
 loop1:
 	while(numIntersections != 0){
 		circles.pop();
@@ -439,7 +395,7 @@ loop2:
 			circles[t][4] += Math.random()*1-0.5;
 		}
 loop3:
-		for(var i = 0;i<350;i++){
+		for(var i = 0;i<(-7500*(calcDensity())+7100);i++){
 			updateCircle();
 			if(numIntersections == 0){
 				break loop1;
