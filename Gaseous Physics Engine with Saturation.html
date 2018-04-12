@@ -228,7 +228,7 @@ buttons.push({
 	textOff: [26,38],
 	colors: ["mediumseagreen","lightgreen",0],
 	action: function() {
-		saturate_1();
+		saturate();
 	},
 	bold: function() {
 		return false;
@@ -420,65 +420,32 @@ function saturate() {
 	return true;
 }
 
-function saturate_1() {
-	// Option to over saturate the palette by yourself or have the function do it
-	if (circles.length == 0) {
-		while (calcDensity() < 0.95) {
+function saturate(){
+	if(circles.length == 0){
+		while(calcDensity()<0.95){
+			console.log("makin cirlces");
 			makeCircle();
 		}
 	}
-	// Optinal scale.air adjustment 
-	//scale.air = 0.94;
-	var plateau_1 = 0;
-	var plateau_2 = 0;
-	var threshold = 0;
-	
-	
-	for (var i=0;i<circles.length;i++) {
-		// Tests if circles.length has changed in a certain amount of for loops
-		if (plateau_2 == plateau_1) {
-			threshold++;
-		}
-		if (threshold == 25) {
-			break;
-		}
-		
-		
-		// Diagnostics
-		console.log(i);
-		console.log(circles.length);
-		console.log(threshold)
-		console.log(100*((i+1)/circles.length));
-		console.log("==========================");
-		
-		// Deletion of circles and update time
-		plateau_1 = circles.length;
-		if (circles[i][6] == 1) {
-			circles.splice(i,1);
-			threshold = 0;
-		}
-		for (var u=0;u<((100*((i+1)/circles.length)));u++) {
-			updateCircle();
-		}
-		plateau_2 = circles.length;
-	}
-}
-	
-function saturate_2() {
-	//scale.air = 0.94;
-	var percent = numIntersections;
+	updateCircle();
+	scale.air = 0.99;
+	//updateSetting = "intersect";
+loop1:
 	while(numIntersections != 0){
 		circles.pop();
-		for (var u = 0;u<20;u++){
-			updateSetting = "intersect";
-			updateCircle();
+loop2:
+		for(var t=0; t<circles.length; t++) {
+			circles[t][3] += Math.random()*1-0.5;
+			circles[t][4] += Math.random()*1-0.5;
 		}
-		console.log(numIntersections);
-		console.log(circles.length);
-		console.log(80*((numIntersections+1)/percent)+15);
-		console.log("++++++++++++++++++++++++");
+loop3:
+		for(var i = 0;i<350;i++){
+			updateCircle();
+			if(numIntersections == 0){
+				break loop1;
+			}
+		}
 	}
-	scale.air = 0.98;
 }
 
 function updateCircle() {
