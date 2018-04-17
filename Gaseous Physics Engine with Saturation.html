@@ -379,15 +379,18 @@ function printCircle() {
 //scale.air 0.99=fix,0.98=natural,0.94=settle
 
 function saturate(){
+	// Oversaturates palette
 	if(circles.length == 0){
 		while(calcDensity()<0.95){
 			makeCircle();
 		}
 	}
+	// updateCircle once to recalculate numIntersections
 	updateCircle();
 	scale.air = 0.99;
 loop1:
 	while(numIntersections != 0){
+		// Delete circle, shake palette, update palette until zero intersections is reached then break out of loop1
 		circles.pop();
 loop2:
 		for(var t=0; t<circles.length; t++) {
