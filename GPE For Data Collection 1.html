@@ -530,7 +530,7 @@ function updateCircle() {
 function saturate() {
 	if(circles.length == 0){
 		while (calcDensity() < 0.95) {
-			makeCircle();
+		makeCircle();
 		}
 	}
 
@@ -554,13 +554,13 @@ function saturate() {
 		console.log("==========================");
 		plateau_1 = circles.length;
  		if (circles[i][6] == 1) {
-			if(circles[i][2] == slider1.pos) {
+			circles.splice(i,1);
+			threshold = 0;
+			if(circles[i][2] == slider1.pos){
 				circleSize1--;
 			} else {
 				circleSize2--;
 			}
-			circles.splice(i,1);
-			threshold = 0;
  		}
 		for (var u=0;u<((200*((i+1)/circles.length)));u++) {
 			updateCircle();
