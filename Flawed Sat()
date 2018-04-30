@@ -27,7 +27,7 @@ function saturate() {
 			circles.splice(i,1);
 			threshold = 0;
  		}
-		for (var u=0;u<((100*((i+1)/circles.length)));u++) {
+		for (var u=0;u<((200*((i+1)/circles.length)));u++) {
 			updateCircle();
  		}
 		plateau_2 = circles.length;
