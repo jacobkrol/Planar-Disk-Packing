@@ -1,0 +1,35 @@
+function saturate() {
+  if(numCircles == 0){
+    while (calcDensity() < 0.95) {
+      makeCircle();
+  }
+
+  var plateau_1 = 0;
+	var plateau_2 = 0;
+	var threshold = 0;
+ 	for (var i=0;i<circles.length;i++) {
+		// Tests if circles.length has changed in a certain amount of for loops
+		if (plateau_2 == plateau_1) {
+			threshold++;
+		}
+		if (threshold == 25) {
+			break;
+		}
+		
+		// Diagnostics
+		console.log(i);
+		console.log(circles.length);
+		console.log(threshold)
+		console.log(100*((i+1)/circles.length));
+		console.log("==========================");
+		plateau_1 = circles.length;
+ 		if (circles[i][6] == 1) {
+			circles.splice(i,1);
+			threshold = 0;
+ 		}
+		for (var u=0;u<((100*((i+1)/circles.length)));u++) {
+			updateCircle();
+ 		}
+		plateau_2 = circles.length;
+ 	}
+}
