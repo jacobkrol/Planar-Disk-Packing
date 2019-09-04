@@ -1,6 +1,6 @@
 # Planar-Disk-Packing
 
-MCL Project: Spring 2017, University of Illinois at Chicago
+MCL Project: Spring 2018, University of Illinois at Chicago
 
 Contributors: Rohit Banerjee, Ivan Cruz, Jacob Krol
 
@@ -9,7 +9,7 @@ Advisor: Ali Mohajer
 Outcomes: We initially attempted to develop an understanding of the bounding density curves of disk packings by creating an interactive visualization where the user could add various sized disks and manipulate them under a simulation of almost gaseous physics. We then turned to determining a thorough method for evaluating the saturation of a given palette of disks. Though we were able to make great strides in a rigorous testing method, using additively-weighted Voronoi decompositions, our project concluded without substantial data using this method. Instead, our final data was drawn with an experimental method of adding and deleting disks until a satisfyingly saturated palette was achieved. In addition to the relatively large size of the disks and possible inaccuracies in our data collection, our methods should be sharpened in the future to evaluate the validity of our final results.
 
 Presentations:
-* Mathematical Computing Laboratory Poster Session, May 2017
+* Mathematical Computing Laboratory Poster Session, Chicago, IL, May 2018
 
 - - - -
 
