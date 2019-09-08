@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rbaner4/examples/Apollonius_graph_2/ag2_filtered_traits_no_hidden.cpp
+iostream
+-
+fstream
+-
+cassert
+-
+CGAL/Simple_cartesian.h
+-
+CGAL/Apollonius_graph_2.h
+-
+CGAL/Triangulation_data_structure_2.h
+-
+CGAL/Apollonius_graph_vertex_base_2.h
+-
+CGAL/Triangulation_face_base_2.h
+-
+CGAL/Apollonius_graph_filtered_traits_2.h
+-
+
