@@ -1,0 +1,89 @@
+// Construct Additively weighted Voronoi diagram and list its vertices
+// David Dumas <david@dumas.io>
+// October 2018
+//
+// This work is hereby placed in the public domain (see https://creativecommons.org/publicdomain/zero/1.0/)
+
+// This program was based in part on
+// (1) The CGAL documentation example: Apollonius_graph_2/ag2_filtered_traits_no_hidden.cpp
+// (2) Sample code from:  https://stackoverflow.com/questions/18274584/
+
+
+// A NOTE ABOUT CGAL TERMINOLOGY
+
+// "Apollonius graph" of a collection of sites means a certain
+// triangulation of the plane that uses the sites as vertices.
+//
+// "Apollonius diagram" means the additively weighted Voronoi diagram
+// (AWVD). It is the dual of the Apollonius graph.
+//
+// Here we are only interested in the AWVD.
+
+
+#include <iostream>
+
+#include <CGAL/Simple_cartesian.h>
+typedef CGAL::Simple_cartesian<double> Rep;
+
+#include <CGAL/Apollonius_graph_2.h>
+#include <CGAL/Triangulation_data_structure_2.h>
+#include <CGAL/Apollonius_graph_vertex_base_2.h>
+#include <CGAL/Triangulation_face_base_2.h>
+#include <CGAL/Apollonius_graph_filtered_traits_2.h>
+#include <CGAL/Apollonius_graph_adaptation_policies_2.h>
+#include <CGAL/Apollonius_graph_adaptation_traits_2.h>
+#include <CGAL/Voronoi_diagram_2.h>
+
+// Note: CGAL is heavily templated, so type names tend to be very
+// long.  We follow the usual solution, using typedefs to give shorter
+// names.
+
+// Build types for working with an Apollonius graph where calculations
+// use floating-point (inexact) arithmetic.
+typedef CGAL::Apollonius_graph_filtered_traits_2<Rep>           Traits;
+typedef CGAL::Apollonius_graph_vertex_base_2<Traits,false>      VertBase;
+typedef CGAL::Triangulation_face_base_2<Traits>                 FaceBase;
+typedef CGAL::Triangulation_data_structure_2<VertBase,FaceBase> TDS;
+typedef CGAL::Apollonius_graph_2<Traits,TDS>                    Apollonius_graph;
+typedef Apollonius_graph::Site_2                                Site;
+typedef Apollonius_graph::Point_2                               SitePoint;
+
+// Build types for working with the AWVD, which is constructed as by
+// "adapting" the Apollonius graph.
+typedef CGAL::Apollonius_graph_adaptation_traits_2<Apollonius_graph>                   AdTraits;
+typedef CGAL::Apollonius_graph_caching_degeneracy_removal_policy_2<Apollonius_graph>   AdPolicy;
+typedef CGAL::Voronoi_diagram_2<Apollonius_graph,AdTraits,AdPolicy>                    AWVD;
+
+int main()
+{
+  Site site;
+  AWVD vor;
+
+  // Read the sites from STDIN and insert them in the additively weighted Voronoi diagram (AWVD)
+  // The format is one per line: X Y WEIGHT
+  while ( std::cin >> site ) {
+    vor.insert(site);
+  }
+  vor.insert("100 500 3");
+/*
+  std::cout << "Listing voronoi vertices and their distances to incident sites." << std::endl;
+  std::cout << "(All weighted distances at a given vertex should be equal!)" << std::endl << std::endl;
+*/
+  AWVD::Vertex_iterator vi;
+  for (vi = vor.vertices_begin(); vi != vor.vertices_end(); vi++) {
+    std::cout << vi->point() << std::endl;/*
+    std::cout << "AWVD vertex at: " << vi->point() << std::endl;
+    std::cout << "Incident sites:" << std::endl;
+    // Warning: A vertex of the AWVD can have many incident faces, but the generic number is 3.
+    // CGAL will only return three of them when using AWVD::Vertex_iterator->site(sitenum).
+    for (int i=0; i<3; i++) {
+      Site s = vi->site(i)->site();
+      SitePoint p = s.point(); // Location of a site whose Voronoi face contains this vertex
+      double d = sqrt(CGAL::squared_distance(p,vi->point()));  // Distance to the site
+      std::cout << "\t" << p << " dist=" << d << " weighted_dist=" << (d-s.weight()) << std::endl;
+    }*/
+    std::cout << std::endl;
+  }
+
+  return 0;
+}

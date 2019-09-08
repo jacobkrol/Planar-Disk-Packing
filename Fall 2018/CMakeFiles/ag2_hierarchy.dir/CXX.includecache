@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rbaner4/examples/Apollonius_graph_2/ag2_hierarchy.cpp
+iostream
+-
+fstream
+-
+cassert
+-
+CGAL/MP_Float.h
+-
+CGAL/Simple_cartesian.h
+-
+CGAL/Apollonius_graph_hierarchy_2.h
+-
+CGAL/Apollonius_graph_filtered_traits_2.h
+-
+
