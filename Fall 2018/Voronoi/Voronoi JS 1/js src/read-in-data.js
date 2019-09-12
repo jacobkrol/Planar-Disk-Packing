@@ -18,7 +18,7 @@ function saveCircles() {
 		if( line == "" /* == intentional */) {
 			continue;
 		}
-		var origPal = 38.75,
+		var origPal = 500,
 			tarPal = 500,
 			scale = tarPal / origPal;
 		point = {};
@@ -38,13 +38,13 @@ function saveCircles() {
 			point.group = 'ERROR(1)';
 		}
 	}
-	
+
 	//hide old sites
 	hide_sites();
-	
+
 	sites = newSites;
 	weightUpdated();
-	
+
 	//correct cell color
 	var cells = cellContainer.selectAll(".cell")._groups[0];
 	var count = 0;
@@ -52,8 +52,8 @@ function saveCircles() {
 		var group = cells[i].__data__.site.originalObject.group;
 		cells[i].classList.value = "group-"+group+" cell";
 	}
-	
+
 	computeAllCells();
 	redrawAllCells(WITHOUT_TRANSITION);
-    
+
 }
