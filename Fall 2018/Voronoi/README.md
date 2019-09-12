@@ -1,6 +1,6 @@
 # Voronoi JavaScript Environment
 
-This was created using [Kcnarf's JavaScript environment](https://github.com/Kcnarf/d3-weighted-voronoi) as a basis. It relies on weighted Voronoi decompositions to create a network of connected line segments between vertices in a plane which lie equidistant from their nearest neighbors.
+This was created using [Kcnarf's JavaScript environment](https://github.com/Kcnarf/d3-weighted-voronoi) as a basis. It relies on weighted Voronoi decompositions to create a network of connected line segments between vertices in a plane which lie equidistant from their nearest neighboring disks.
 
 ### Added Features:
 
@@ -54,7 +54,7 @@ Note: the x, y, and weight must be separated by a whitespace \( " " \) or a tab 
 
 #### Data Ranges
 
-The default boundary for \(x, y\) coordinates is 0&#8594;500 for each variable. Weights are best viewable as values 10&#8594;50 at the default 500x500 scale. If desired data file has different limits on the x and y, simply update the "origPal" variable on line 21 of "read-in-data.js" to the desired maximum value and the program will adjust your variables to fit the display.
+The default boundary for \(x, y\) coordinates is 0&#8594;500 for each variable. Weights are best viewable as values 10&#8594;50 at the default 500x500 scale. If desired data file has different limits on the x and y, simply update the `origPal` variable on `line 21` of `read-in-data.js` to the desired maximum value and the program will adjust your variables to fit the display.
 
 ```javascript
 var origPal = 500,  // update this variable with your data's limit for x and y values
