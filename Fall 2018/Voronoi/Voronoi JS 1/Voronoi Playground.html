@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://bl.ocks.org/Kcnarf/raw/7d7f60ef86a77851c38c51904f4c8d39/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    
+    <title>Voronoï playground: Voronoï transitioning thanks to weighted Voronoï</title>
+    <meta name="description" content="Transitioning from one Voronoï tessellation to another thanks to Weighted Voronoï, using D3.js and the d3-weighted-voronoi plugin">
+    <script src="./js src/d3.v4.min.js" charset="utf-8"></script>
+    <script src="./js src/d3-weighted-voronoi.js"></script>
+	<script src="./js src/visuals.js"></script>
+	<script src="./js src/calculate.js"></script>
+	<script src="./js src/read-in-data.js"></script>
+    
+    <style>
+      #wip {
+        display: none;
+        position: absolute;
+        top: 200px;
+        left: 330px;
+        font-size: 40px;
+        text-align: center; 
+      }
+
+      .control {
+        position: absolute;
+        top: 5px;
+      }
+      .control#control-0 {
+        left: 5px;
+        text-align: center;
+      }
+      .control#control-1 {
+        left: 5px;
+        top: 25px;
+      }
+      .control#control-2 {
+        right: 460px;
+        top: 25px;
+      }
+      .control span {
+        width: 100px;
+      }
+      .control input[type="range"] {
+        width: 210px;
+      }
+
+      svg {
+        position: absolute;
+        top: 25px;
+        left: 15px;
+        margin: 1px;
+        border-radius: 0px; /* 1000px; */
+        /* box-shadow: 2px 2px 6px grey; */
+		border: 1px solid gray;
+      }
+
+
+      #site-container {
+        clip-path: url("#clipper");
+      }
+      .seed {
+        fill: steelblue;
+      }
+      .seed.group-green {
+        fill: lightgreen;
+      }
+	  
+	  
+      .seed.hide {
+        display: none;
+      }
+	  .seed.group-blue {
+		display: none;
+	  }
+	  
+	  
+	  .seed.group-red {
+		fill: none;
+		stroke: red;
+	  }
+	  .seed.group-teal {
+		fill: none;
+		stroke: steelblue;
+	  }
+	  .seed.group-vertex {
+		fill: black;
+		stroke: black;
+	  }
+	  .seed.group-vertex.fit-red {
+		fill: red;
+	  }
+	  .seed.group-vertex.fit-teal {
+		fill: steelblue;
+	  }
+
+
+      .cell {
+        fill-opacity: 0.1;
+        fill: lightsteelBlue;
+        stroke: lightsteelBlue;
+      }
+      .cell.group-green {
+        fill: lightgreen;
+        stroke: lightgreen;
+      }
+	  
+	  .cell.group-red {
+		fill: magenta;
+		stroke: lightCoral;
+	  }
+	  .cell.group-teal {
+		fill: mediumTurquoise;
+		stroke: mediumTurquoise;
+	  }
+	  
+	  button {
+		margin-bottom: 5px;
+	  }
+	  .bar {
+		height: 20px;
+		width: 300px;
+		border: 1px solid gray;
+		border-radius: 5px;
+		padding: 2px;
+	  }
+	  .progress {
+		background: #3F3;
+		height: 100%;
+		width: 0%;
+		border-radius: 5px;
+	  }
+    </style>
+  </head>
+  <body>
+
+    <svg width="500" height="500">
+      <defs>
+        <clippath id="clipper">
+          <rect x="0" y="0" width="470" height="470"></rect>
+        </clippath>
+      </defs>
+      <g id="drawing-area" width="470" height="470" transform="translate(1,1)">
+        <g id="cell-container"></g>
+        <g id="site-container"></g>
+      </g>
+    </svg>
+    
+    <div id="control-panel" style="display:none">
+		<div id="control-0" class="control">
+		  <span>Voronoï of blue sites</span>
+		  <input id="weight" type="range" name="points" min="-5000" max="5000" value="0" oninput="weightUpdated()">
+		  <span>Voronoï of green sites</span>
+		</div>
+		<div id="control-1" class="control">
+		  <span>Show blue sites</span>
+		  <input id="weight" type="checkbox" name="showSites" onchange="blueSiteVisibilityUpdated()">
+		</div>
+		<div id="control-2" class="control">
+		  <input id="weight" type="checkbox" name="showSites" onchange="greenSiteVisibilityUpdated()">
+		  <span>Show green sites</span>
+		</div>
+	</div>
+
+    <div id="wip">
+      Work in progress ...
+    </div>
+
+	<div style="margin-top:550px"></div>
+	<table>
+		<tr>
+			<td colspan="2" align="center" style="font-weight:bold">CONTROL PANEL</td>
+		</tr>
+		<tr>
+			<td>Site Visibility:</td>
+			<td><button onclick="show_sites(sites)">Show</button>
+			<button onclick="hide_sites()">Hide</button></td>
+		</tr>
+		<tr>
+			<td>Site Data Source:</td>
+			<td><button onclick="stand_sites()">Sample</button>
+			<button onclick="document.getElementById('file-in').click()">Import</button>
+			<button onclick="rand_sites()">Random</button></td>
+		</tr>
+		<tr>
+			<td>Vertex Data:</td>
+			<td><button onclick="calc_verts()">Calculate</button>
+			<button onclick="open_verts()">Filter</button></td>
+		</tr>
+	</table>
+	
+	<input id="file-in" type='file' accept='text/plain' onchange='openFile(event)' style="display:none">
+	
+	<h2>Vertices:</h2>
+	<div class="bar">
+		<div class="progress"></div>
+	</div>
+	<p id="results-title"></p>
+	<p id="results">...</p>
+  
+
+  <script>
+    var WITH_TRANSITION = true;
+    var WITHOUT_TRANSITION = false;
+    var duration = 250;
+    var _2PI = 2*Math.PI;
+
+    //begin: layout conf.
+    var totalHeight = 500,
+        controlsHeight = 0,
+        svgRadius = (totalHeight-controlsHeight)/2,
+        svgbw = 0, //svg border width
+        svgHeight = 2*svgRadius,
+    		svgWidth = 2*svgRadius,
+        radius = svgRadius-svgbw,
+        width = 2*svgRadius,
+        height = 2*svgRadius,
+        halfRadius = radius/2
+        halfWidth = halfRadius,
+        halfHeight = halfRadius,
+        quarterRadius = radius/4;
+        quarterWidth = quarterRadius,
+        quarterHeight = quarterRadius,
+		wScale = 10;
+	width = document.getElementsByTagName("svg")[0].width.baseVal.value;
+	height = document.getElementsByTagName("svg")[0].height.baseVal.value;
+    //end: layout conf.
+
+    //begin: voronoi stuff definitions
+    var siteCount = 120,
+        halfSiteCount = siteCount/2;
+    var blueSites = [],
+        greenSites = [];
+    var baseWeight = 10000,
+        x, y;
+    for (i=0; i<halfSiteCount; i++) {
+      //use (x,y) instead of (r,a) for a better uniform (ie. less centered) placement of sites
+      x = width*Math.random();
+      y = height*Math.random();
+      blueSites.push({index: i, group: "blue", x: x, y: y, weight: baseWeight});
+      x = width*Math.random();
+      y = height*Math.random();
+      greenSites.push({index: i+siteCount, group: "green", x: x, y: y, weight: baseWeight});
+    }
+    var	sites = blueSites.concat(greenSites);
+    var clippingPolygon = [[0,0], [0,height], [width,height], [width,0]];
+    var weightedVoronoi = d3.weightedVoronoi().clip(clippingPolygon);
+    var cells = sites.map(function(s){ return []; });	// stores, for each site, each cell's verteces
+    //end: voronoi stuff definitions
+
+    //begin: utilities
+    var cellLiner = d3.line()
+    .x(function(d){ return d[0]; })
+    .y(function(d){ return d[1]; });
+    //end: utilities
+
+    //begin: reusable d3-selections
+    var svg = d3.select("svg"),
+        clipper = d3.select("#clipper>rect"),
+        drawingArea = d3.select("#drawing-area"),
+        cellContainer = d3.select("#cell-container"),
+        siteContainer = d3.select("#site-container");
+    //end: reusable d3-selections
+
+    //begin: user interaction handlers
+    function weightUpdated() {
+      var deltaWeight,
+          newBlueWeigth,
+          newGreenWeight;
+      deltaWeight = +d3.select("#control-0 input").node().value;
+      newBlueWeigth = baseWeight - deltaWeight;
+      newGreenWeight = baseWeight + deltaWeight;
+
+      //blueSites.forEach(function(s){ s.weight = newBlueWeigth });
+      //greenSites.forEach(function(s){ s.weight = newGreenWeight });
+      computeAllCells();
+
+      redrawAllCells(WITHOUT_TRANSITION);
+    }
+    
+    function blueSiteVisibilityUpdated() {
+      visibility = d3.select("#control-1 input").node().checked? 1:0;
+      redrawGroup("blue", visibility , WITH_TRANSITION);
+    }
+    
+    function greenSiteVisibilityUpdated() {
+      visibility = d3.select("#control-2 input").node().checked? 1:0;
+      redrawGroup("green", visibility, WITH_TRANSITION);
+    }
+    //end: user interaction handlers
+
+    computeAllCells();
+
+    initLayout();
+    redrawAllCells(WITHOUT_TRANSITION);
+
+    /***************/
+    /* Computation */
+    /***************/
+
+    function computeAllCells() {
+      cells = weightedVoronoi(sites);
+    }
+
+    /***********/
+    /* Drawing */
+    /***********/
+
+    //redraw group = show/hide sites of particular group
+    function redrawGroup(color, finalOpacity, withTransition) {
+      siteContainer.selectAll(".seed").filter(function(d){ return d.group === color; })
+        .transition()
+          .duration(withTransition? duration : 0)
+          .attr("opacity", finalOpacity);
+    }
+
+    function redrawAllCells(withTransition) {
+			var cellSelection = cellContainer.selectAll(".cell")
+        .data(cells, function(c){ return c.site.originalObject.index; });
+      
+      cellSelection.enter()
+        .append("path")
+          .attr("class", function(d){ return "group-"+d.site.originalObject.group; })
+          .classed("cell", true)
+          .attr("id", function(d,i){ return "cell-"+d.site.originalObject.index; })
+      	.merge(cellSelection)
+      		.transition()
+            .duration(withTransition? duration : 0)
+            .attr("d", function(d){ return cellLiner(d)+"z"; });
+      
+      cellSelection.exit().remove();
+    }
+
+    function initLayout () {
+      svg.attr("width", svgWidth)
+        .attr("height", svgHeight);
+
+      clipper.attr("x", 0)
+        .attr("y", 0)
+        .attr("width", width)
+        .attr("height", height);
+
+      drawingArea.attr("width", width)
+        .attr("height", height)
+        .attr("transform", "translate("+[svgbw, svgbw]+")");
+
+      //begin: draw sites
+      drawnSites = siteContainer.selectAll(".site")
+      .data(sites)
+      .enter()
+        .append("g")
+          .attr("id", function(d){ return "site-"+d.index})
+          .classed("site", true);
+      drawnSites.append("circle")
+        .attr("id", function(d,i){ return "seed-"+i; })
+        .attr("class", function(d){ return "group-"+d.group; })
+        .classed("seed", true)
+        .attr("r", 2)
+      	.attr("opacity", 0)
+      	.attr("transform", function(d){ return "translate("+[d.x,d.y]+")"; });;
+      //end: draw sites
+
+      //begin: draw cells
+      cellContainer.selectAll(".cell")
+        .data(cells)
+        .enter()
+        .append("path")
+        .attr("class", function(d){ return "group-"+d.site.originalObject.group; })
+        .classed("cell", true)
+        .attr("id", function(d,i){ return "cell-"+d.site.originalObject.index; });
+      //end: draw cells
+    }
+  </script>
+
+</body></html>

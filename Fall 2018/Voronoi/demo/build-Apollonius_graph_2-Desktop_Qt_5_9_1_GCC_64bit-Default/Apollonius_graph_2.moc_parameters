@@ -1,0 +1,14 @@
+-I/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../include
+-I/usr/include
+-I/usr/include/x86_64-linux-gnu
+-I/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default
+-I/home/ivan/CGAL/include
+-I/home/ivan/LDownloads/CGAL-4.11.1/include
+-I/usr/local/boost_1_66_0
+-I/usr/include
+-DCGAL_USE_MPFR
+-DCGAL_USE_GMP
+-DQT_NO_KEYWORDS
+-o
+/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Apollonius_graph_2.moc
+/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/Apollonius_graph_2.cpp

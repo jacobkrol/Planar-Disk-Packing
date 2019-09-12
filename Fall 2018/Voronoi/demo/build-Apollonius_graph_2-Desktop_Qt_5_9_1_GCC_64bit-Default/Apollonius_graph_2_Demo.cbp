@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="Apollonius_graph_2_Demo" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\CGAL\;CMake Files\..\..\..\..\..\Qt\;CMake Files\..\..\..\..\..\Qt\5.9.1\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5OpenGL\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Widgets\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Core\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Svg\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Script\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5ScriptTools\;CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Xml\;CMake Files\..\..\..\..\..\LDownloads\;CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\;CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\;CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\modules\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="edit_cache">
+         <Option working_dir="/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 edit_cache" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="Apollonius_graph_2">
+         <Option output="/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Apollonius_graph_2" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DQT_XML_LIB" />
+            <Add option="-DQT_CORE_LIB" />
+            <Add option="-DQT_SCRIPT_LIB" />
+            <Add option="-DQT_OPENGL_LIB" />
+            <Add option="-DQT_WIDGETS_LIB" />
+            <Add option="-DQT_GUI_LIB" />
+            <Add option="-DQT_SVG_LIB" />
+            <Add option="-DCGAL_USE_MPFR" />
+            <Add option="-DCGAL_USE_GMP" />
+            <Add option="-DQT_NO_KEYWORDS" />
+            <Add option="-DQT_NO_DEBUG" />
+            <Add directory="/home/ivan/CGAL/include" />
+            <Add directory="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../include" />
+            <Add directory="/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default" />
+            <Add directory="/home/ivan/LDownloads/CGAL-4.11.1/include" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/./mkspecs/linux-g++" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtCore" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtGui" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtOpenGL" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtScript" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtSvg" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtWidgets" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtXml" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/5" />
+            <Add directory="/usr/include/c++/5/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/5" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+            <Add directory="/usr/local/boost_1_66_0" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 Apollonius_graph_2" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="Apollonius_graph_2/fast">
+         <Option output="/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Apollonius_graph_2" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DQT_XML_LIB" />
+            <Add option="-DQT_CORE_LIB" />
+            <Add option="-DQT_SCRIPT_LIB" />
+            <Add option="-DQT_OPENGL_LIB" />
+            <Add option="-DQT_WIDGETS_LIB" />
+            <Add option="-DQT_GUI_LIB" />
+            <Add option="-DQT_SVG_LIB" />
+            <Add option="-DCGAL_USE_MPFR" />
+            <Add option="-DCGAL_USE_GMP" />
+            <Add option="-DQT_NO_KEYWORDS" />
+            <Add option="-DQT_NO_DEBUG" />
+            <Add directory="/home/ivan/CGAL/include" />
+            <Add directory="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../include" />
+            <Add directory="/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default" />
+            <Add directory="/home/ivan/LDownloads/CGAL-4.11.1/include" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/./mkspecs/linux-g++" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtCore" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtGui" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtOpenGL" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtScript" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtSvg" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtWidgets" />
+            <Add directory="/home/ivan/Qt/5.9.1/gcc_64/include/QtXml" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/5" />
+            <Add directory="/usr/include/c++/5/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/5" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+            <Add directory="/usr/local/boost_1_66_0" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 Apollonius_graph_2/fast" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/ivan/Documents/pot/CGAL-4.11.1/demo/build-Apollonius_graph_2-Desktop_Qt_5_9_1_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/Apollonius_graph_2.cpp">
+         <Option target="Apollonius_graph_2"/>
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/Apollonius_graph_2.moc">
+         <Option target="Apollonius_graph_2"/>
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/Apollonius_graph_2.qrc">
+         <Option target="Apollonius_graph_2"/>
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/Apollonius_graph_2.ui">
+         <Option target="Apollonius_graph_2"/>
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/Apollonius_graph_2.qrc">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../CGAL/CGALConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\CGAL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../CGAL/CGALConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\CGAL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../CGAL/CGALExports.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\CGAL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../CGAL/CGALLibConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\CGAL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../CGAL/CGAL_CoreLibConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\CGAL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../CGAL/CGAL_ImageIOLibConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\CGAL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../CGAL/CGAL_Qt5LibConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\CGAL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5/Qt5ConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5/Qt5Config.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5/Qt5ModuleLocation.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5/Qt5ConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5/Qt5Config.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5/Qt5ModuleLocation.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5/Qt5ConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5/Qt5Config.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5/Qt5ModuleLocation.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5OpenGL/Qt5OpenGLConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5OpenGL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5OpenGL/Qt5OpenGLConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5OpenGL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5OpenGL/Qt5OpenGLConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5OpenGL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5OpenGL/Qt5OpenGLConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5OpenGL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5OpenGL/Qt5OpenGLConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5OpenGL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5OpenGL/Qt5OpenGLConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5OpenGL\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Widgets\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Widgets\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Widgets\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Widgets\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QComposePlatformInputContextPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QEglFSEmulatorIntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QEglFSIntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QEglFSX11IntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QEvdevKeyboardPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QEvdevMousePlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QEvdevTabletPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QEvdevTouchScreenPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QGtk3ThemePlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QIbusPlatformInputContextPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QJp2Plugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QLinuxFbIntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QMinimalEglIntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QTgaPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QTiffPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QVirtualKeyboardPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QVncIntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QXcbEglIntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QXcbGlxIntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5Gui_QXcbIntegrationPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Gui/Qt5GuiConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Gui\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Core/Qt5CoreConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Core/Qt5CoreMacros.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Core/Qt5CoreConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Core\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Svg/Qt5SvgConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Svg\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Svg/Qt5SvgConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Svg\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Svg/Qt5Svg_QSvgIconPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Svg\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Svg/Qt5Svg_QSvgPlugin.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Svg\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Svg/Qt5SvgConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Svg\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Svg/Qt5SvgConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Svg\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Script/Qt5ScriptConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Script\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Script/Qt5ScriptConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Script\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Script/Qt5ScriptConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Script\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Script/Qt5ScriptConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Script\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5ScriptTools/Qt5ScriptToolsConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5ScriptTools\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5ScriptTools/Qt5ScriptToolsConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5ScriptTools\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Xml/Qt5XmlConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Xml\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../Qt/5.9.1/gcc_64/lib/cmake/Qt5Xml/Qt5XmlConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\Qt\5.9.1\gcc_64\lib\cmake\Qt5Xml\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../LDownloads/CGAL-4.11.1/cmake/modules/UseCGAL.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\modules\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../LDownloads/CGAL-4.11.1/cmake/modules/CGAL_Macros.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\modules\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../LDownloads/CGAL-4.11.1/cmake/modules/CGAL_VersionUtils.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\modules\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../LDownloads/CGAL-4.11.1/cmake/modules/CGAL_Common.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\modules\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../LDownloads/CGAL-4.11.1/cmake/modules/CGAL_Macros.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\modules\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../LDownloads/CGAL-4.11.1/cmake/modules/CGAL_SetupFlags.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\modules\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../LDownloads/CGAL-4.11.1/cmake/modules/CGAL_GeneratorSpecificSettings.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\modules\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../LDownloads/CGAL-4.11.1/cmake/modules/CGAL_TweakFindBoost.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\modules\" />
+      </Unit>
+      <Unit filename="/home/ivan/Documents/pot/CGAL-4.11.1/demo/Apollonius_graph_2/../../../../../LDownloads/CGAL-4.11.1/cmake/modules/FindOpenGL.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\..\LDownloads\CGAL-4.11.1\cmake\modules\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>
