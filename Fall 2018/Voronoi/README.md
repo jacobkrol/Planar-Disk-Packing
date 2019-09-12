@@ -32,28 +32,39 @@ The .zip file in this directory will include the environment as well as all Java
 | Calculate | Analyzes and prints intersection vertices of the Voronoi decomposition |
 | Filter    | Places markers at vertices indicating species of disk that would fit, centered there |
 
-### \* Import Data Formatting:
+\* the imported data should match the guidelines given below.
+
+### Import Data Formatting:
 
 Imported files are simple, but should be formatted using the following guidelines.
 
-*File Layout*
+#### File Layout
 
 The imported data should be a .txt file with the following layout:
 
 > \[ x<sub>1</sub> \] \[ y<sub>1</sub> \] \[ weight<sub>1</sub> \]
+> 
 > \[ x<sub>2</sub> \] \[ y<sub>2</sub> \] \[ weight<sub>2</sub> \]
+> 
 > ...
+> 
 > \[ x<sub>n</sub> \] \[ y<sub>n</sub> \] \[ weight<sub>n</sub> \]
 
 Note: the x, y, and weight must be separated by a whitespace \( " " \) or a tab \( \\t \) and returned with a newline \( \\n \)
 
-*Data Ranges*
+#### Data Ranges
 
-The default boundary for \(x, y\) coordinates is 0 &rarr 500 for each variable. Weights are best viewable as values 10 &rarr 50 at the default 500x500 scale.
+The default boundary for \(x, y\) coordinates is 0&#8594;500 for each variable. Weights are best viewable as values 10&#8594;50 at the default 500x500 scale. If desired data file has different limits on the x and y, simply update the "origPal" variable on line 21 of "read-in-data.js" to the desired maximum value and the program will adjust your variables to fit the display.
 
-*Can I see?*
+```javascript
+var origPal = 500,  // update this variable with your data's limit for x and y values
+    tarPal = 500,
+    scale = tarPal / origPal;
+```
 
-Example File:
+#### Can I see?
+
+Absolutely! Example File:
 
 ```
 244.17 129.90 30
@@ -63,6 +74,6 @@ Example File:
 461.56 272.21 30
 ```
 
-...processes into...
+This file will process in the environment as the following. Please note that the origin (0,0) is oriented in the upper-left corner.
 
-![Unable to load sample data image](https://github.com/jacobkrol/Planar-Disk-Packing/Fall%202018/Voronoi/sample/sample-png.png)
+![Unable to load sample data image](https://github.com/jacobkrol/Planar-Disk-Packing/blob/master/Fall%202018/Voronoi/sample/sample-png.png?raw=true)
