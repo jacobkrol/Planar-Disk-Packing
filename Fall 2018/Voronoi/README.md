@@ -40,10 +40,10 @@ Imported files are simple, but should be formatted using the following guideline
 
 The imported data should be a .txt file with the following layout:
 
-> \[x vertex 1\] \[y vertex 1\] \[weight vertex 1\]
-> \[x vertex 2\] \[y vertex 2\] \[weight vertex 2\]
+> \[ x<sub>1</sub> \] \[ y<sub>1</sub> \] \[ weight<sub>1</sub> \]
+> \[ x<sub>2</sub> \] \[ y<sub>2</sub> \] \[ weight<sub>2</sub> \]
 > ...
-> \[x vertex n\] \[y vertex n\] \[weight vertex n\]
+> \[ x<sub>n</sub> \] \[ y<sub>n</sub> \] \[ weight<sub>n</sub> \]
 
 Note: the x, y, and weight must be separated by a whitespace \( " " \) or a tab \( \\t \) and returned with a newline \( \\n \)
 
@@ -65,4 +65,4 @@ Example File:
 
 ...processes into...
 
-![Unable to load sample data image!](/sample/sample-png.png)
+![Unable to load sample data image](https://github.com/jacobkrol/Planar-Disk-Packing/Fall%202018/Voronoi/sample/sample-png.png)
