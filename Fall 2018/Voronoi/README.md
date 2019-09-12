@@ -38,15 +38,14 @@ Imported files are simple, but should be formatted using the following guideline
 
 *File Layout*
 
-> .txt file
-> 
-> | :-- |
-> | \[x vertex 1\] \[y vertex 1\] \[weight vertex 1\] |
-> | \[x vertex 2\] \[y vertex 2\] \[weight vertex 2\] |
-> | ... |
-> | \[x vertex n\] \[y vertex n\] \[weight vertex n\] |
-> 
-> Note: the x, y, and weight must be separated by a whitespace \( " " \) or a tab \( \\t \) and returned with a newline \( \\n \)
+The imported data should be a .txt file with the following layout:
+
+> \[x vertex 1\] \[y vertex 1\] \[weight vertex 1\]
+> \[x vertex 2\] \[y vertex 2\] \[weight vertex 2\]
+> ...
+> \[x vertex n\] \[y vertex n\] \[weight vertex n\]
+
+Note: the x, y, and weight must be separated by a whitespace \( " " \) or a tab \( \\t \) and returned with a newline \( \\n \)
 
 *Data Ranges*
 
@@ -66,4 +65,4 @@ Example File:
 
 ...processes into...
 
-![Unable to load sample data image!](/sample/sample.png)
+![Unable to load sample data image!](/sample/sample-png.png)
